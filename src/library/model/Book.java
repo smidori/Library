@@ -12,14 +12,14 @@ public class Book {
     private String id;
     private String authorFirstName;
     private String authorLastName;
-    private String bookTitle;
-    private String genre;
+    private String title;
+    private String genre; // create enum ????
 
-    public Book(String id, String authorFirstName, String authorLastName, String bookTitle, String genre) {
+    public Book(String id, String authorFirstName, String authorLastName, String title, String genre) {
         this.id = id;
         this.authorFirstName = authorFirstName;
         this.authorLastName = authorLastName;
-        this.bookTitle = bookTitle;
+        this.title = title;
         this.genre = genre;
     }
 
@@ -47,12 +47,12 @@ public class Book {
         this.authorLastName = authorLastName;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setTitle(String bookTitle) {
+        this.title = bookTitle;
     }
 
     public String getGenre() {
@@ -61,6 +61,11 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+    
+    @Override
+    public String toString(){
+        return "Book: " + title + " ("+authorFirstName +" " + authorLastName +")" + " genre: "+ genre +"\n";
     }
     
     

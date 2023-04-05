@@ -2,21 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package library.utilities;
+package library.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import library.model.Book;
+import library.utilities.ReadCSV;
 
 /**
  *
  * @author Silvia Shimabuko
  */
-public class LoadFile {
+public class BookController {
     
-    public static final String FILE_BOOK = "MOCK_DATA.csv";
+    public static final String FILE_BOOK = "BOOKS_DATA.csv";
     
-    public List<Book> loadBook(){
+    public List<Book> loadDataBooks(){
         List<Book> books = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
 
@@ -24,7 +25,8 @@ public class LoadFile {
         
         if(lines != null){
             for(String line: lines){
-                String data[] = line.split(",");
+                //this pattern is to ignore to slit by comma when it is inside of quotes
+                String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 
                 Book book = new Book(data[0],data[1],data[2], data[3],data[4]);
                 books.add(book);
@@ -33,5 +35,4 @@ public class LoadFile {
         
         return books;
     }
-    
 }

@@ -29,9 +29,8 @@ public class ReadCSV {
             while (scanner.hasNext()) {
                 String line = scanner.next();
                 lines.add(line);
-                //String data[] = line.split(",");
-                //System.out.println(data[0]);
             }
+            lines.remove(0); //remove header
             scanner.close();
 
         } catch (FileNotFoundException e) {

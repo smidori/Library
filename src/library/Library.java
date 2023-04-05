@@ -4,7 +4,11 @@
  */
 package library;
 
-import library.utilities.ReadCSV;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import library.controller.BookController;
+import library.model.Book;
 
 /**
  *
@@ -12,12 +16,21 @@ import library.utilities.ReadCSV;
  */
 public class Library {
 
+    private List<Book> books;
+    
+    public Library(){
+        this.books = new ArrayList<>();
+        
+        BookController bookController = new BookController();
+        this.books = bookController.loadDataBooks();
+    }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        Library library = new Library();
+        System.out.println(Arrays.toString(library.books.toArray()));
         
     }
     

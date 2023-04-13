@@ -25,10 +25,10 @@ public class BookController {
 
         if (lines != null) {
             for (String line : lines) {
-                //this pattern is to ignore to slit by comma when it is inside of quotes
+                //this pattern is to ignore to split by comma when it is inside of quotes
                 String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-                Book book = new Book(data[0], data[1], data[2], data[3], data[4]);
+                boolean isAvailable = data[5].equals("true");
+                Book book = new Book(data[0], data[1], data[2], data[3], data[4], isAvailable );
                 books.add(book);
             }
         }
@@ -36,6 +36,20 @@ public class BookController {
         return books;
     }
 
+    public String listBooksAsString(List<Book> books, String orderDescriptionBy) {
+        StringBuilder sb = new StringBuilder();
+
+        if (books == null || books.isEmpty()) {
+            return "Book not found :(";
+        }
+
+        for (Book b : books) {
+            sb.append(b.orderedDescriptionBy(orderDescriptionBy));
+        }
+        return sb.toString();
+    }
+
+    //Used do/while because it is faster then nested for
     public List<Book> bubbleSorted(List<Book> array, String orderBy) {
         Book temp;
         boolean swap = false;
@@ -68,4 +82,35 @@ public class BookController {
         return array;
     }
 
+    //TODO
+    /**
+     * Visit every position in the array, until find the element that matches with the criteria
+     * @param array
+     * @param targetName
+     * @param field
+     * @return 
+     */
+    public int linearSearch(List<Book> array, String targetName, String field) {
+        //targetName = Commons.removeAccents(targetName);
+        
+        if (field.equalsIgnoreCase("title")) {
+            for (int i = 0; i < array.size(); i++) {
+                //String title = Commons.removeAccents(array.get(i).getTitle());
+                String title = array.get(i).getTitle();
+                if (title.equalsIgnoreCase(targetName)) {
+                    return i;
+                }
+            }
+        }else if(field.equalsIgnoreCase("author")){//search by author
+            for (int i = 0; i < array.size(); i++) {
+                //if (Commons.removeAccents(array.get(i).getFullName()).equalsIgnoreCase(targetName)) {
+                if (array.get(i).getFullName().equalsIgnoreCase(targetName)) {
+                    return i;
+                }
+            }
+        }else{//invalid field
+            return -1;
+        }
+        return -1;
+    }
 }

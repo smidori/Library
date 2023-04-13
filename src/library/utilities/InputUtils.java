@@ -7,7 +7,7 @@ package library.utilities;
 import java.util.Scanner;
 
 /**
- * 
+ *
  * @author Silvia Shimabuko
  */
 public class InputUtils {
@@ -28,12 +28,12 @@ public class InputUtils {
         boolean valid = false;
 
         do {
-            System.out.println("\n*********");
+            //System.out.println("\n*********");
             System.out.println(prompt);
-            System.out.println("*********");
+            //System.out.println("*********");
             try {
                 userInput = myKB.nextInt(); //get a int
-                valid = true; 
+                valid = true;
             } catch (Exception e) {//throws exception in case the input wasn't a number
                 System.out.println("The number must be between " + minValue + " and " + maxValue);
                 myKB.nextLine(); //force to enter a number
@@ -43,4 +43,71 @@ public class InputUtils {
         return userInput;
     }
 
+    public static String getUserText(String prompt) {
+        Scanner myKB = new Scanner(System.in,"ISO_8859_1");
+        String userInput;
+        
+        System.out.println(prompt);
+        userInput = myKB.nextLine().trim(); // get input
+        return userInput;
+
+    }
+    
+    public static boolean getUserPressEnter() {
+        String prompt = "Press \"Enter key\" to show the options";
+        Scanner myKB = new Scanner(System.in);
+        boolean valid = false; //assume not valid
+        String userInput;
+
+        do {
+
+            System.out.println(prompt);
+
+            userInput = myKB.nextLine().trim(); // get input
+
+            if (userInput.matches("^\\r?$")) {
+                //this is valid input
+                valid = true;
+            } else {
+                //not valid text
+                System.err.println("Invalid - press enter key only please");
+            }
+
+        } while (!valid); //keep going until valid input received
+
+        return valid;
+
+    }
+
+    /**
+     * Prompt user to enter an text and keep asking if the text is invalid
+     *
+     * @param prompt
+     * @return
+     */
+    public static String getUserTextOld(String prompt) {
+
+        Scanner myKB = new Scanner(System.in);
+        boolean valid = false; //assume not valid
+        String userInput;
+
+        do {
+
+            System.out.println(prompt);
+
+            userInput = myKB.nextLine().trim(); // get input
+
+            if (userInput.matches("[a-zA-Z ]+")) {
+                //this is valid input
+                valid = true;
+            } else {
+                //not valid text
+                System.out.println("Invalid - enter text only please");
+            }
+
+        } while (!valid); //keep going until valid input received
+
+        return userInput;
+
+    }
 }

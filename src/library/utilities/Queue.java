@@ -19,6 +19,14 @@ public class Queue {
     private int capacity;
     private int queueSize;
 
+    public Queue() {
+        this.capacity = 10;//because there are 500 books
+        this.data = new String[capacity];
+        this.queueSize = 0;
+        this.front = -1;
+        this.back = -1;
+    }
+    
     public Queue(int capacity) {
         this.capacity = capacity;
         this.data = new String[capacity];

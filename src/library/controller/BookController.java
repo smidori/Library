@@ -27,8 +27,7 @@ public class BookController {
             for (String line : lines) {
                 //this pattern is to ignore to split by comma when it is inside of quotes
                 String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                boolean isAvailable = data[5].equals("true");
-                Book book = new Book(data[0], data[1], data[2], data[3], data[4], isAvailable );
+                Book book = new Book(data[0], data[1], data[2], data[3], data[4]);
                 books.add(book);
             }
         }

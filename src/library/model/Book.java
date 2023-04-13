@@ -14,16 +14,14 @@ public class Book {
     private String authorLastName;
     private String title;
     private String genre; // create enum ????
-    private boolean isAvailable;
 
     //CONSTRUCTOR
-    public Book(String id, String authorFirstName, String authorLastName, String title, String genre, boolean isAvailable) {
+    public Book(String id, String authorFirstName, String authorLastName, String title, String genre) {
         this.id = id;
         this.authorFirstName = authorFirstName;
         this.authorLastName = authorLastName;
         this.title = title;
         this.genre = genre;
-        this.isAvailable = isAvailable;
     }
 
     public String getId() {
@@ -64,14 +62,6 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public boolean isIsAvailable() {
-        return isAvailable;
-    }
-
-    public void setIsAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
     }
     
     public String getFullName() {

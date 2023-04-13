@@ -150,7 +150,6 @@ public class Library {
                                 System.out.println("Operation completed successfully");
                             } else {
 
-                                book.setIsAvailable(false);
                                 List<String> datas = new ArrayList<>();
                                 LocalDateTime now = LocalDateTime.now();
                                 LendBook lb = new LendBook(DateUtils.dateToString(now), book.getId(), student.getId(), now, null);

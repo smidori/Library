@@ -63,6 +63,12 @@ public class Book {
         this.genre = genre;
     }
     
+    
+    public String getFullName(){
+        return authorFirstName + " " + authorLastName; 
+                
+    }
+    
     @Override
     public String toString(){
         return "Book: " + title + " ("+authorFirstName +" " + authorLastName +")" + " genre: "+ genre +"\n";

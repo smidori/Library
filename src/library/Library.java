@@ -63,12 +63,14 @@ public class Library {
             String msg;
 
             switch (selectedMenu) {
-
-                case 1 -> //list all books ordered by title
+                case 1:
                     System.out.println("BOOKS LIST\n" + bc.listBooksAsString(bc.bubbleSorted(library.books, "title"), "title"));
-                case 2 ->  //list all books ordered by author
+                    break;
+
+                case 2:  //list all books ordered by author
                     System.out.println("BOOKS LIST\n" + bc.listBooksAsString(bc.bubbleSorted(library.books, "author"), "author"));
-                case 3 -> { //search book by title
+                    break;
+                case 3: { //search book by title
                     String searchTitle = InputUtils.getUserText("Type the title of the book");
                     //linear search get just the first element found, in this case, the second book will never be found
                     System.out.println("\n Searching for the book....\n");
@@ -89,7 +91,8 @@ public class Library {
                         System.out.println("BOOK \n" + library.books.get(indexBook).toString() + "\n");
                     }
                 }
-                case 4 -> { //search book by author
+                break;
+                case 4: { //search book by author
                     String searchAuthor = InputUtils.getUserText("Type the name of author");
                     //linear search get just the first element found, in this case, the second book will never be found
                     System.out.println("\n Searching for the author....\n");
@@ -102,7 +105,7 @@ public class Library {
                     }
                     //Whitman Maw
                 }
-                case 8 -> {
+                case 8: {
                     String searchTitle = InputUtils.getUserText("Type the title of the book that would be lend ");
                     //linear search get just the first element found, in this case, the second book will never be found
                     System.out.println("\n Searching for the book....\n");
@@ -165,6 +168,7 @@ public class Library {
                         }
                         //Marley & Me
                     }
+                    break;
                 }
             }
             //selectedMenu = InputUtils.getUserInt(currentMenu, 0, 10);

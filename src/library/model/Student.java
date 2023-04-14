@@ -58,4 +58,14 @@ public class Student {
         return firstName + " " + lastName;
     }
 
+      public String orderedDescriptionBy(String order){
+        if(order.equalsIgnoreCase("name")){
+            return getFullName()+ " - "  + id  +" - " + address +"\n";
+        }else if(order.equalsIgnoreCase("id")){
+           return id + " - " +getFullName() +" - " + address +"\n";
+        }else{
+            return toString();
+        }
+    }
+    
 }

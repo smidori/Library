@@ -7,6 +7,7 @@ package library.controller;
 import library.model.Student;
 import java.util.ArrayList;
 import java.util.List;
+import library.model.Book;
 import library.utilities.ReadCSV;
 
 /**
@@ -49,7 +50,7 @@ public class StudentController {
                 if (orderBy.equalsIgnoreCase("name")) {
                     s1 = array.get(j).getFullName();
                     s2 = array.get(j + 1).getFullName();
-                } else {//order by title
+                } else {//order by id
                     s1 = array.get(j).getId() + "";
                     s2 = array.get(j + 1).getId() + "";
                 }
@@ -67,4 +68,18 @@ public class StudentController {
         System.out.println("-----------");
         return array;
     }
+    
+    public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {
+        StringBuilder sb = new StringBuilder();
+
+        if (students == null || students.isEmpty()) {
+            return "Student not found :(";
+        }
+
+        for (Student s : students) {
+            sb.append(s.orderedDescriptionBy(orderDescriptionBy));
+        }
+        return sb.toString();
+    }
+    
 }

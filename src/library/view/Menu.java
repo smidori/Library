@@ -21,14 +21,16 @@ public class Menu {
         
         sb.append("5 - Search for a student by name \n");
         sb.append("6 - Search for a student by Id \n");
-        sb.append("7 - List all students \n");  
+        sb.append("7 - List all students by name \n");  
+        sb.append("8 - List all students by id \n");
         
-        sb.append("8 - Library lend book \n"); 
-        sb.append("9 - List all borrowing books \n"); 
+        
+        sb.append("9 - Library lend book \n"); 
+        sb.append("10 - List books lent to the student \n"); 
         //sb.append("10 - Waiting list \n"); 
-        sb.append("10 - Returned books \n");   
-        sb.append("11 - My borrowed books \n");        
-                
+        sb.append("11 - Returned books \n");   
+        sb.append("12 - My borrowed books \n");        
+
         return sb.toString();
     }
 }

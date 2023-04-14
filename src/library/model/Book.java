@@ -77,9 +77,9 @@ public class Book {
     
     public String orderedDescriptionBy(String order){
         if(order.equalsIgnoreCase("author")){
-            return getFullName() +" - " + title +"\n";
+            return id + " - " +getFullName() +" - " + title +"\n";
         }else if(order.equalsIgnoreCase("title")){
-            return title + " - ("+ getFullName() +")\n";
+            return id + " - " +title + " - ("+ getFullName() +")\n";
         }else{
             return toString();
         }

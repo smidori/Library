@@ -54,7 +54,7 @@ public class InputUtils {
     }
     
     public static boolean getUserPressEnter() {
-        String prompt = "Press \"Enter key\" to show the options";
+        String prompt = "\nPress \"Enter key\" to show the options";
         Scanner myKB = new Scanner(System.in);
         boolean valid = false; //assume not valid
         String userInput;

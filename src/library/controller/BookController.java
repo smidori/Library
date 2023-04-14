@@ -7,6 +7,7 @@ package library.controller;
 import java.util.ArrayList;
 import java.util.List;
 import library.model.Book;
+import library.utilities.Commons;
 import library.utilities.ReadCSV;
 
 /**
@@ -90,20 +91,24 @@ public class BookController {
      * @return 
      */
     public int linearSearch(List<Book> array, String targetName, String field) {
-        //targetName = Commons.removeAccents(targetName);
+        targetName = Commons.removeAccents(targetName);
         
         if (field.equalsIgnoreCase("title")) {
             for (int i = 0; i < array.size(); i++) {
-                //String title = Commons.removeAccents(array.get(i).getTitle());
-                String title = array.get(i).getTitle();
+                String title = Commons.removeAccents(array.get(i).getTitle());
                 if (title.equalsIgnoreCase(targetName)) {
                     return i;
                 }
             }
         }else if(field.equalsIgnoreCase("author")){//search by author
             for (int i = 0; i < array.size(); i++) {
-                //if (Commons.removeAccents(array.get(i).getFullName()).equalsIgnoreCase(targetName)) {
-                if (array.get(i).getFullName().equalsIgnoreCase(targetName)) {
+                if (Commons.removeAccents(array.get(i).getFullName()).equalsIgnoreCase(targetName)) {
+                    return i;
+                }
+            }
+        }else if(field.equalsIgnoreCase("id")){//search by book id
+            for (int i = 0; i < array.size(); i++) {
+                if (array.get(i).getId().equalsIgnoreCase(targetName)) {
                     return i;
                 }
             }

@@ -16,13 +16,13 @@ import library.utilities.ReadCSV;
  */
 public class LendBookController {
 
-    public static final String FILE_LEND = "LEND_BOOK_DATA.csv";
+    public static final String FILE_LEND_BOOK = "LEND_BOOK_DATA.csv";
 
     public List<LendBook> loadDataLendBooks() {
         List<LendBook> lendBooks = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
 
-        List<String> lines = reader.readFile(FILE_LEND);
+        List<String> lines = reader.readFile(FILE_LEND_BOOK);
 
         if (lines != null) {
             for (String line : lines) {
@@ -34,16 +34,56 @@ public class LendBookController {
         return lendBooks;
     }
 
-    public int linearSearch(List<LendBook> array, String target) {
+//    public int linearSearch(List<LendBook> array, String target, String field) {
+//        //targetName = Commons.removeAccents(targetName);
+//        
+//        if (field.equalsIgnoreCase("idBook")) {
+//            for (int i = 0; i < array.size(); i++) {
+//                String idBook = array.get(i).getIdBook();
+//                if (idBook.equalsIgnoreCase(target)) {
+//                    return i;
+//                }
+//            }
+//        }else if(field.equalsIgnoreCase("idStudent")){//search by idStudent
+//            int idStudent = Integer.parseInt(target);
+//            
+//            for (int i = 0; i < array.size(); i++) {
+//                if (array.get(i).getIdStudent() == (idStudent)) {
+//                    return i;
+//                }
+//            }
+//        }else{//invalid field
+//            return -1;
+//        }
+//        return -1;
+//    }
 
+    public int linearSearchBook(List<LendBook> array, String idBook, boolean isLent) {
+        for (int i = array.size() -1; i >= 0; i--) {//TODO SEARCH FROM MOST RECENT TO THE OLD
+            LendBook lendBook = array.get(i);
+            if(isLent){//it will return the book in case the book is lent already, it means with return date null
+                if (lendBook.getIdBook().equalsIgnoreCase(idBook) && lendBook.getReturnDate() == null ) {
+                    return i;
+                }
+            }else{
+                if (lendBook.getIdBook().equalsIgnoreCase(idBook) && lendBook.getReturnDate() != null ) {
+                    return i;
+                }
+            }
+            
+        }
+        return -1;
+    }
+    
+    public List<LendBook> linearSearch(List<LendBook> array, int idStudent) {
+        List<LendBook> lendBooks = new ArrayList<>();
+        
         for (int i = 0; i < array.size(); i++) {
-            String idBook = array.get(i).getIdBook();
-            if (idBook.equalsIgnoreCase(target)) {
-                return i;
+            if (array.get(i).getIdStudent() == idStudent) {
+                lendBooks.add(array.get(i));
             }
         }
-
-        return -1;
+        return lendBooks;
     }
 
 }

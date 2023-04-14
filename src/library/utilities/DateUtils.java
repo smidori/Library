@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class DateUtils {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    private static final DateTimeFormatter DATE_HOUR = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public static String dateToString(LocalDateTime date) {
         if (date == null) {
@@ -22,6 +23,13 @@ public class DateUtils {
         return date.format(DATE_FORMAT);
     }
 
+    public static String dateToStringDateHour(LocalDateTime date) {
+        if (date == null) {
+            return "";
+        }
+        return date.format(DATE_HOUR);
+    }
+    
     public static LocalDateTime stringToDate(String date) {
         if(date == null || date.equals("")){
             return null;

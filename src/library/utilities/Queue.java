@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Silvia Shimabuko
  */
-public class Queue {
+public class Queue<T> {
     private String[] data;
     private int front;
     private int back;

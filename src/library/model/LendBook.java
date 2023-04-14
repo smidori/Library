@@ -78,7 +78,10 @@ public class LendBook {
         return sb.toString();
     }
     
-    
+    public String borrowedBookDetail(){
+        return "\nid Book: " + idBook + "\nBorrow date " + DateUtils.dateToStringDateHour(borrowDate) + 
+                "\nReturn date " + DateUtils.dateToStringDateHour(returnDate);
+    }
     
     
 }

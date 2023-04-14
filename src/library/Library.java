@@ -107,6 +107,14 @@ public class Library {
                     //Whitman Maw
                     break;
                 }
+                case 5: {
+                    System.out.println("STUDENTS LIST\n" + sc.listStudentsAsString(sc.bubbleSorted(library.students, "name"), "name"));
+                    break;
+                }
+                case 6: {
+                    System.out.println("STUDENTS LIST\n" + sc.listStudentsAsString(sc.bubbleSorted(library.students, "id"), "id"));
+                    break; 
+                }
                 case 9: {
                     //TODO CHANGE TO ID BOOK VARIABLE
                     String searchTitle = InputUtils.getUserText("Type the id of the book that would be lend ");

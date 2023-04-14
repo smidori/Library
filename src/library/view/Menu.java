@@ -19,10 +19,11 @@ public class Menu {
         sb.append("3 - Search book by title \n");        
         sb.append("4 - Search book by author name \n");
         
-        sb.append("5 - Search for a student by name \n");
-        sb.append("6 - Search for a student by Id \n");
-        sb.append("7 - List all students by name \n");  
-        sb.append("8 - List all students by id \n");
+        sb.append("5 - List all students by name \n");  
+        sb.append("6 - List all students by id \n");
+        sb.append("7 - Search for a student by name \n");
+        sb.append("8 - Search for a student by Id \n");
+       
         
         
         sb.append("9 - Library lend book \n"); 

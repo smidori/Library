@@ -9,7 +9,7 @@ package library.model;
  * @2022443Maria
  */
 public class Student {
-    
+
     private int id;
     private String firstName;
     private String lastName;
@@ -53,7 +53,9 @@ public class Student {
     public void setAddress(String address) {
         this.address = address;
     }
-    
 
-    
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
 }

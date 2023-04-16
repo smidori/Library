@@ -4,6 +4,7 @@
  */
 package library.model;
 
+import java.util.Iterator;
 import library.utilities.Queue;
 
 /**
@@ -11,8 +12,9 @@ import library.utilities.Queue;
  * @author Silvia Shimabuko
  */
 public class WaitingList {
+
     public static final String HEAD_CSV = "idBook,idStudents\n";
-    
+
     private String idBook;
     private Queue students;
 
@@ -37,24 +39,13 @@ public class WaitingList {
         this.students = students;
     }
 
-    
-    public String getCSVFormat(){
+    public String getCSVFormat() {
         StringBuilder sb = new StringBuilder();
-        sb.append(idBook+",");
-        
-        if(!getStudents().isEmpty()){
-            Queue queueTemp = getStudents();
-            boolean addSeparator = false;
-            while(queueTemp.size() > 0){
-                if(addSeparator)
-                    sb.append("|");
-                sb.append(queueTemp.Dequeue());
-                addSeparator=true;
-            }
-        }
-        
+        sb.append(idBook + ",");
+        sb.append(getStudents().getCSVFormat());
         sb.append("\n");
         return sb.toString();
     }
+
     
 }

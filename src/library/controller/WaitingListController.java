@@ -4,54 +4,47 @@
  */
 package library.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import library.model.Book;
+import library.model.Student;
 import library.model.WaitingList;
-import library.utilities.Queue;
-import library.utilities.ReadCSV;
+import library.model.dao.WaitingListDAO;
 
 /**
  *
  * @author Silvia Shimabuko
  */
 public class WaitingListController {
-    public static final String FILE_WAITING_LIST = "WAITING_LIST_DATA.csv";
-
-    public List<WaitingList> loadDataWaitingList() {
-        List<WaitingList> waitinglist = new ArrayList<>();
-        ReadCSV reader = new ReadCSV();
-
-        List<String> lines = reader.readFile(FILE_WAITING_LIST);
-
-        if (lines != null) {
-            for (String line : lines) {
-                String[] data = line.split(",",-1);
-                String[] idStudentsStr = data[1].split("\\|");
-                Queue idStudents = new Queue();
-                for(int i =0; i < idStudentsStr.length; i++){
-                    idStudents.Enqueue(idStudentsStr[i]);
-                }
-                
-                WaitingList wl = new WaitingList(data[0], idStudents);
-                waitinglist.add(wl);
-            }
-        }
-
-        return waitinglist;
+    
+    WaitingListDAO dao = new WaitingListDAO();
+    
+    public void loadDataWaitingList(){
+        dao.loadDataWaitingList();
     }
     
     public int linearSearch(List<WaitingList> array, String target) {
-
-        for (int i = 0; i < array.size(); i++) {
-            String idBook = array.get(i).getIdBook();
-            if (idBook.equalsIgnoreCase(target)) {
-                return i;
-            }
-        }
-
-        return -1;
+        return dao.linearSearch(array, target);
     }
-
+    
+    public void add(Student student, Book book) {
+        dao.add(student, book);
+    }
+    
+    public void removeFirstStudent(String idBook){
+        dao.removeFirstStudent(idBook);
+    }
+    
+    public void save() {
+        dao.save();
+    }
+    
+    public List<Student> findStudentsWaitingListbyIdBook(String target) {
+        return dao.findStudentsWaitingListbyIdBook(target);
+    }
+    
+    public List<WaitingList> getWaitingList() {
+        return dao.getWaitingList();
+    }
     
     
 }

@@ -4,11 +4,11 @@
  */
 package library.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import library.model.Book;
 import library.model.LendBook;
-import library.utilities.DateUtils;
-import library.utilities.ReadCSV;
+import library.model.Student;
+import library.model.dao.LendBookDAO;
 
 /**
  *
@@ -16,22 +16,14 @@ import library.utilities.ReadCSV;
  */
 public class LendBookController {
 
-    public static final String FILE_LEND_BOOK = "LEND_BOOK_DATA.csv";
+    private final LendBookDAO dao = new LendBookDAO();
 
-    public List<LendBook> loadDataLendBooks() {
-        List<LendBook> lendBooks = new ArrayList<>();
-        ReadCSV reader = new ReadCSV();
+    public List<LendBook> getLendBooks() {
+        return dao.getLendBooks();
+    }
 
-        List<String> lines = reader.readFile(FILE_LEND_BOOK);
-
-        if (lines != null) {
-            for (String line : lines) {
-                String[] data = line.split(",", -1);
-                LendBook lendBook = new LendBook(data[0], data[1], Integer.parseInt(data[2]), DateUtils.stringToDate(data[3]), DateUtils.stringToDate(data[4]));
-                lendBooks.add(lendBook);
-            }
-        }
-        return lendBooks;
+    public void loadDataLendBooks() {
+        dao.loadDataLendBooks();
     }
 
 //    public int linearSearch(List<LendBook> array, String target, String field) {
@@ -57,33 +49,20 @@ public class LendBookController {
 //        }
 //        return -1;
 //    }
+    public int searchLastRegisterByIdBook(String idBook, boolean isLent) {
+        return dao.searchLastRegisterByIdBook(idBook, isLent);
+    }
 
-    public int linearSearchBook(List<LendBook> array, String idBook, boolean isLent) {
-        for (int i = array.size() -1; i >= 0; i--) {//TODO SEARCH FROM MOST RECENT TO THE OLD
-            LendBook lendBook = array.get(i);
-            if(isLent){//it will return the book in case the book is lent already, it means with return date null
-                if (lendBook.getIdBook().equalsIgnoreCase(idBook) && lendBook.getReturnDate() == null ) {
-                    return i;
-                }
-            }else{
-                if (lendBook.getIdBook().equalsIgnoreCase(idBook) && lendBook.getReturnDate() != null ) {
-                    return i;
-                }
-            }
-            
-        }
-        return -1;
+    public List<LendBook> searchLendBookByStudent(int idStudent) {
+        return dao.searchLendBookByStudent(idStudent);
+    }
+
+    public void add(Book book, Student student) {
+        dao.add(book, student);
     }
     
-    public List<LendBook> linearSearch(List<LendBook> array, int idStudent) {
-        List<LendBook> lendBooks = new ArrayList<>();
-        
-        for (int i = 0; i < array.size(); i++) {
-            if (array.get(i).getIdStudent() == idStudent) {
-                lendBooks.add(array.get(i));
-            }
-        }
-        return lendBooks;
+    public void save() {
+        dao.save();
     }
 
 }

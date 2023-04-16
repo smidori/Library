@@ -70,8 +70,7 @@ public class Book {
      
     @Override
     public String toString(){
-        return "Title: " + title + "\nAuthor: " + getFullName() + "\ngenre(s): " + genre;
-        //return title + " ("+ getFullName() +")" + " genre: "+ genre +"\n";
+        return "Title: " + title +"\nid: "+getId() +"\nAuthor: " + getFullName() + "\ngenre(s): " + genre;
     }
     
     

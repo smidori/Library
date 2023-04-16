@@ -4,22 +4,21 @@
  */
 package library;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import library.controller.BookController;
 import library.controller.LendBookController;
 import library.controller.StudentController;
 import library.controller.WaitingListController;
 import library.model.Book;
-import library.model.LendBook;
 import library.model.Student;
-import library.model.WaitingList;
-import library.utilities.DateUtils;
+import library.utilities.ColorMessage;
 import library.utilities.InputUtils;
 import library.utilities.Queue;
-import library.utilities.WriteCSV;
+import library.view.BookView;
+import library.view.LendBookView;
 import library.view.Menu;
+import library.view.StudentView;
+import library.view.WaitingListView;
 
 /**
  *
@@ -27,23 +26,23 @@ import library.view.Menu;
  */
 public class Library {
 
-    private List<Book> books;
-    private List<Student> students;
-    private List<LendBook> lendBooks;
-    private List<WaitingList> waitingList;
-
+    //CONTROLLERS
     private static final BookController bc = new BookController();
     private static final StudentController sc = new StudentController();
     private static final LendBookController lbc = new LendBookController();
     private static final WaitingListController wlc = new WaitingListController();
 
+    //VIEWS
+    private static final BookView bv = new BookView();
+    private static final StudentView sv = new StudentView();
+    private static final WaitingListView wlv = new WaitingListView();
+    private static final LendBookView lbv = new LendBookView();
+
     public Library() {
-        this.books = new ArrayList<>();
-        this.books = bc.loadDataBooks();
-        this.students = sc.loadDataStudents();
-        this.lendBooks = lbc.loadDataLendBooks();
-        this.waitingList = wlc.loadDataWaitingList();
-        System.out.println(waitingList.size());
+        bc.loadDataBooks();
+        sc.loadDataStudents();
+        lbc.loadDataLendBooks();
+        wlc.loadDataWaitingList();
     }
 
     /**
@@ -53,179 +52,122 @@ public class Library {
         Library library = new Library();
         Menu menu = new Menu();
 
-        //System.out.println(Arrays.toString(library.books.toArray()));
+        //System.out.println(Arrays.toString(bc.getBooks().toArray()));
         int selectedMenu;
 
         String currentMenu = menu.mainMenu();
         int qttMenuItens = 12;
-        selectedMenu = InputUtils.getUserInt(currentMenu, 0, qttMenuItens);
+        selectedMenu = InputUtils.getUserIntBetween(currentMenu, 0, qttMenuItens, ColorMessage.BLUE);
 
         while (selectedMenu != 0) {//ask to type a number until the user type 0 in the main menu
             String msg;
 
             switch (selectedMenu) {
-                case 1:
-                    System.out.println("BOOKS LIST\n" + bc.listBooksAsString(bc.bubbleSorted(library.books, "title"), "title"));
+                case 1: //list all books ordered by title
+                    bv.listBooks("title");
                     break;
-
                 case 2:  //list all books ordered by author
-                    System.out.println("BOOKS LIST\n" + bc.listBooksAsString(bc.bubbleSorted(library.books, "author"), "author"));
+                    bv.listBooks("author");
                     break;
-                case 3: {  //search book by title
-                    String searchTitle = InputUtils.getUserText("Type the title of the book");
-                    //linear search get just the first element found, in this case, the second book will never be found
-                    System.out.println("\n Searching for the book....\n");
-
-                    int indexBook = bc.linearSearch(library.books, searchTitle, "title");
-                    if (indexBook < 0) {
-                        System.out.println("Sorry, book [" + searchTitle + "] not found :( \n");
-                    } else {
-                        //World War Z
-                        //You're Not You
-                        //More About the Children of Noisy Village (a.k.a. More About the Children of Bullerby Village) (Mer om oss barn i Bullerbyn)
-                        //Marley & Me
-                        //Kevin Smith: Too Fat For 40
-                        //Hidden (a.k.a. Cache) (Caché)
-                        //Hellraiser: Deader
-                        //Goal! The Dream Begins (Goal!)
-                        //Zatoichi's Vengeance (Zatôichi no uta ga kikoeru) (Zatôichi 13)
-                        System.out.println("BOOK \n" + library.books.get(indexBook).toString() + "\n");
-                    }
+                case 3: { //search book by title
+                    bv.searchBook("title");
                     break;
                 }
                 case 4: { //search book by author
-                    String searchAuthor = InputUtils.getUserText("Type the name of author");
-                    //linear search get just the first element found, in this case, the second book will never be found
-                    System.out.println("\n Searching for the author....\n");
-                    int indexBook = bc.linearSearch(library.books, searchAuthor, "author");
-                    if (indexBook < 0) {
-                        System.out.println("Sorry, author [" + searchAuthor + "] not found :( \n");
-                    } else {
-                        //World War Z
-                        System.out.println("Author \n" + library.books.get(indexBook).toString() + "\n");
-                    }
-                    //Whitman Maw
+                    bv.searchBook("author");
                     break;
                 }
-                case 9: {
-                    //TODO CHANGE TO ID BOOK VARIABLE
-                    String searchTitle = InputUtils.getUserText("Type the id of the book that would be lend ");
-                    //linear search get just the first element found, in this case, the second book will never be found
-                    System.out.println("\n Searching for the book....\n");
-
-                    //int indexBook = bc.linearSearch(library.books, searchTitle, "title");
-                    int indexBook = bc.linearSearch(library.books, searchTitle, "id");
-                    if (indexBook < 0) {
-                        System.out.println("Sorry, book [" + searchTitle + "] not found :( \n");
-                    } else {
-                        Book book = library.books.get(indexBook);
-
-                        //TODO buscar o estudante
-                        int indexStudent = InputUtils.getUserInt("DIGITE O ID DO STUDENT - TEMPORARIO", 0, 5);
-
-                        Student student = library.students.get(indexStudent);
-                        String confirmMessage = "Would you like to lend the book: " + book.getTitle()
-                                + " to the student: " + student.getFirstName() + "? \n"
-                                + " Type 1 to confirm or 2 to cancel the operation";//TODO full name
-                        int confirm = InputUtils.getUserInt(confirmMessage, 1, 2);
-                        if (confirm == 1) {
-                            //CASO O LIVRO NÃO ESTÁ DISPONÍVEL, COLOCAR NA LISTA DE ESPERA
-                            //Check if the book is available
-                            if (lbc.linearSearchBook(library.lendBooks, book.getId(),true) >= 0) {
-                                System.out.println("This book is already lent, the student were added to the waiting list");
-                                //book is already lent, then need to add the name to the waiting list
-                                int indexWL = wlc.linearSearch(library.waitingList, book.getId());
-                                if (indexWL >= 0) {
-                                    //add to the current waiting list
-                                    library.waitingList.get(indexWL).getStudents().Enqueue(student.getId() + "");
+                case 5: { //search book by id
+                    bv.searchBook("id");
+                    break;
+                }
+                case 6: {//list student ordered by name
+                    sv.listStudents("name");
+                    break;
+                }
+                case 7: {//list student ordered by id
+                    sv.listStudents("id");
+                    break;
+                }
+                case 8: {//search the student by name
+                    sv.search("name");
+                    break;
+                }
+                case 9: {//search the student by id
+                    sv.search("id");
+                    break;
+                }
+                case 10: {
+                    Book book = bv.searchBookbyId();
+                    if (book != null) {
+                        Student student = sv.searchStudentById();
+                        if (student != null) {
+                            int indexLendBook = lbc.searchLastRegisterByIdBook(book.getId(), true);
+                            if (indexLendBook >= 0) {//add to the waiting list
+                                if (lbc.getLendBooks().get(indexLendBook).getIdStudent() == student.getId()) {
+                                    ColorMessage.print("This book is already lent to this student", ColorMessage.PINK);
                                 } else {
-                                    //add new register to the waiting list
-                                    Queue studentsIdWL = new Queue();
-                                    studentsIdWL.Enqueue(student.getId() + "");
-                                    WaitingList newWaitingList = new WaitingList(book.getId(), studentsIdWL);
-                                    library.waitingList.add(newWaitingList);
+                                    ColorMessage.print("This book is already lent to another student", ColorMessage.PINK);
+                                    wlv.addWaitingList(book, student);
                                 }
-                                //TODO update csv waiting list
-                                List<String> datas = new ArrayList<>();
-                                //WaitingList wlStr = new LendBook(DateUtils.dateToString(now), book.getId(), student.getId(), now, null);
-                                datas.add(WaitingList.HEAD_CSV);
-                                for (int i = 0; i < library.waitingList.size(); i++) {
-                                    datas.add(library.waitingList.get(i).getCSVFormat());
+                            } else {//Add lend Book
+                                //check if there is someone in the waiting list
+                                int indexWL = wlc.linearSearch(wlc.getWaitingList(), book.getId());
+                                
+                                if(indexWL < 0){//there is no one in the waiting list
+                                    lbv.addLendBook(book, student);
+                                }else{
+                                    Queue students = wlc.getWaitingList().get(indexWL).getStudents();
+                                    String firstInQueue = students.First();
+                                    if(firstInQueue.equalsIgnoreCase(String.valueOf(student.getId()))){//should be the first to get this book
+                                        lbv.addLendBook(book, student);
+                                        //remove this student from the queue;
+                                        wlc.removeFirstStudent(book.getId());
+                                        wlc.save();
+                                    }else{
+                                        ColorMessage.print("Sorry, the book is available but there is an waiting list for this book", ColorMessage.PINK);
+                                        wlv.addWaitingList(book, student);
+                                    }
                                 }
-
-                                WriteCSV.writefile(WaitingListController.FILE_WAITING_LIST, datas);
-                                System.out.println("Operation completed successfully");
-                            } else {
-
-                                
-                                
-                                LocalDateTime now = LocalDateTime.now();
-                                LendBook lb = new LendBook(DateUtils.dateToString(now), book.getId(), student.getId(), now, null);
-                                library.lendBooks.add(lb);
-                                
-                                List<String> datas = new ArrayList<>();
-                                datas.add(LendBook.HEAD_CSV);
-                                for(int i = 0; i < library.lendBooks.size(); i++){
-                                    datas.add(library.lendBooks.get(i).getCSVFormat());
-                                }
-                                WriteCSV.writefile(LendBookController.FILE_LEND_BOOK, datas);
-                                
-                                System.out.println("Operation completed successfully");
+                                //ff2dea5d-1406-48c7-9143-fe5a4c1a9123
                             }
-
-                        } else {
-                            System.out.println("Operation cancelled");
-                        }
-                        //Marley & Me
-                    }
-                    break;
-                }
-                case 10: {//list books lent to the student
-                    //TODO get properly student
-                    int indexStudent = InputUtils.getUserInt("DIGITE O ID DO STUDENT - TEMPORARIO", 0, 5);
-                    Student student = library.students.get(indexStudent);
-                    List<LendBook> lendBooksStudent = lbc.linearSearch(library.lendBooks, student.getId());
-                    if (lendBooksStudent.isEmpty()) {
-                        System.out.println("No one book was lent to this student: " + student.getId());
-                    } else {
-                        System.out.println("Bellow are list the books were lent to the student: " + student.getId()
-                                + " - " + student.getFirstName());//TODO GET FULL NAME
-                        for (LendBook lb : lendBooksStudent) {
-                            System.out.println(lb.borrowedBookDetail());
                         }
                     }
                     break;
                 }
-                case 11: {//return book
-                    String searchIdBook = InputUtils.getUserText("Type the id book that will be returned ");
-                    System.out.println("\n Searching for the book....\n");
-
-                    int indexBook = lbc.linearSearchBook(library.lendBooks, searchIdBook,true);
-
-                    if (indexBook < 0) {
-                        System.out.println("Sorry, book [" + searchIdBook + "] not found :( \n");
+                case 11: {//list books lent to the student
+                    Student student = sv.searchStudentById();
+                    if(student != null) {
+                        lbv.listLendBooksByStudent(student);
+                    }
+                    break;
+                }
+                case 12: {
+                    Book book = bv.searchBookbyId();
+                    if (book != null) {
+                        lbv.returnBook(book.getId());
+                    }                    
+                    lbc.save();
+                    break;
+                }
+                case 13: {//show search waiting list by book id
+                    //578eb3bd-9458-44c8-bcd5-6edb6c48a6f2
+                    String searchIdBook = InputUtils.getUserText("Type the book id", ColorMessage.BLUE);
+                    Menu.printSearching("waitling list");
+                    List<Student> students = wlc.findStudentsWaitingListbyIdBook(searchIdBook);
+                    if (students.isEmpty()) {
+                        System.out.println("Waiting list for the book [" + searchIdBook + "] not found :( \n");
                     } else {
-                        LendBook lb = library.lendBooks.get(indexBook);
-                        lb.setReturnDate(LocalDateTime.now());
-                        //saving the information in csv
-                        List<String> datas = new ArrayList<>();
-                        datas.add(LendBook.HEAD_CSV);
-                        for (int i = 0; i < library.lendBooks.size(); i++) {
-                            datas.add(library.lendBooks.get(i).getCSVFormat());
-                        }
-
-                        WriteCSV.writefile(LendBookController.FILE_LEND_BOOK, datas);
-                        System.out.println("Book returned with success!!!");
+                        System.out.println("STUDENTS WAITING LIST\n" + sc.listStudentsAsString(students, "id"));
                     }
                     break;
                 }
             }
             if (InputUtils.getUserPressEnter()) {
-                selectedMenu = InputUtils.getUserInt(currentMenu, 0, qttMenuItens);
+                selectedMenu = InputUtils.getUserIntBetween(currentMenu, 0, qttMenuItens, ColorMessage.BLUE);
             }
-
         }
-
+        ColorMessage.print("Program is finalized!!!", ColorMessage.BLUE);
     }
 
 }

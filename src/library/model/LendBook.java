@@ -71,15 +71,15 @@ public class LendBook {
     
     public String getCSVFormat(){
         StringBuilder sb = new StringBuilder();
-        sb.append(id+","+idBook+","+idStudent + ",");
-        sb.append(DateUtils.dateToString(borrowDate)+",");
+        sb.append(id).append(",").append(idBook).append(",").append(idStudent).append(",");
+        sb.append(DateUtils.dateToString(borrowDate)).append(",");
         sb.append(DateUtils.dateToString(returnDate));
         sb.append("\n");
         return sb.toString();
     }
     
     public String borrowedBookDetail(){
-        return "\nid Book: " + idBook + "\nBorrow date " + DateUtils.dateToStringDateHour(borrowDate) + 
+        return "\nId Book: " + idBook + "\nBorrow date " + DateUtils.dateToStringDateHour(borrowDate) + 
                 "\nReturn date " + DateUtils.dateToStringDateHour(returnDate);
     }
     

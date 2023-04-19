@@ -6,8 +6,9 @@ package library.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import library.comparator.ComparatorStudentByName;
 import library.model.Student;
-import library.utilities.Commons;
+import library.utilities.BinarySearch;
 import library.utilities.ReadCSV;
 
 /**
@@ -15,9 +16,14 @@ import library.utilities.ReadCSV;
  * @author Silvia Shimabuko
  */
 public class StudentDAO {
+
     public static final String FILE_STUDENT = "STUDENTS_DATA.csv";
     private static List<Student> students;
-            
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
     public void loadDataStudents() {
         students = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
@@ -34,11 +40,11 @@ public class StudentDAO {
             }
         }
     }
-    
-    public Student findById(int idStudent){
-        if(!students.isEmpty()){
+
+    public Student findById(int idStudent) {
+        if (!students.isEmpty()) {
             for (Student student : students) {
-                if(student.getId() == idStudent){
+                if (student.getId() == idStudent) {
                     return student;
                 }
             }
@@ -46,11 +52,7 @@ public class StudentDAO {
         return null;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-    
-    public List<Student> bubbleSorted(List<Student> students, String orderBy) {
+    public List<Student> bubbleSorted(String orderBy) {
         Student temp;
         boolean swap;
         do {
@@ -80,7 +82,24 @@ public class StudentDAO {
         } while (swap);
         return students;
     }
-    
+
+    public int binarySearch(String target, String field) {
+        //targetName = Commons.removeAccents(targetName);
+        bubbleSorted(field);//sort the list before do the search
+        Student student = new Student();
+        
+        if (field.equalsIgnoreCase("name")) {
+            student.setFirstName(target.split(" ")[0]);
+            student.setLastName(target.split(" ")[1]);
+            return BinarySearch.binarySearch(students, student, new ComparatorStudentByName());
+        } else if (field.equalsIgnoreCase("id")) {//search by student id
+            student.setId(Integer.parseInt(target));
+            return BinarySearch.binarySearch(students, student, null);
+        } else {//invalid field
+            return -1;
+        }
+    }
+
     public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {
         StringBuilder sb = new StringBuilder();
 
@@ -93,27 +112,5 @@ public class StudentDAO {
         }
         return sb.toString();
     }
-    
-    public int linearSearch(List<Student> array, String targetName, String field) {
-        targetName = Commons.removeAccents(targetName);
-        
-        if (field.equalsIgnoreCase("name")) {
-            for (int i = 0; i < array.size(); i++) {
-                String title = Commons.removeAccents(array.get(i).getFullName());
-                if (title.equalsIgnoreCase(targetName)) {
-                    return i;
-                }
-            }
-        }else if(field.equalsIgnoreCase("id")){//search by student id
-            int idStudent = Integer.parseInt(targetName);
-            for (int i = 0; i < array.size(); i++) {
-                if (array.get(i).getId() == idStudent) {
-                    return i;
-                }
-            }
-        }else{//invalid field
-            return -1;
-        }
-        return -1;
-    }
+
 }

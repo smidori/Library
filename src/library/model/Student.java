@@ -8,13 +8,15 @@ package library.model;
  *
  * @2022443Maria
  */
-public class Student {
+public class Student implements Comparable<Student> {
 
     private int id;
     private String firstName;
     private String lastName;
     private String address;
 
+    public Student() {}
+    
     public Student(int id, String firstName, String lastName, String address) {
         this.id = id;
         this.firstName = firstName;
@@ -71,6 +73,11 @@ public class Student {
     @Override
     public String toString(){
         return "Name:" + getFullName() +"\nId:"+getId() +"\nAddress:" + getAddress();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return Integer.compare(id, o.getId());
     }
     
 }

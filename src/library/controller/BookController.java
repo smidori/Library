@@ -22,20 +22,13 @@ public class BookController {
     public String listBooksAsString(List<Book> books,String orderDescriptionBy) {
         return dao.listBooksAsString(books, orderDescriptionBy);
     }
-
-    public List<Book> bubbleSorted(List<Book> books, String orderBy) {
-        return dao.bubbleSorted(books, orderBy);
+    
+    public List<Book> bubbleSorted(String orderBy) {
+        return dao.bubbleSorted(orderBy);
     }
 
-    //TODO
-    /**
-     * Visit every position in the array, until find the element that matches with the criteria
-     * @param targetName
-     * @param field
-     * @return 
-     */
-    public int linearSearch(String targetName, String field) {
-        return dao.linearSearch(targetName, field);
+    public int binarySearch(String targetName, String field) {
+        return dao.binarySearch(targetName, field);
     }
     
     public List<Book> getBooks() {

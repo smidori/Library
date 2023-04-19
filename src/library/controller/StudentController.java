@@ -7,7 +7,6 @@ package library.controller;
 import library.model.Student;
 import java.util.List;
 import library.model.dao.StudentDAO;
-import library.utilities.Commons;
 
 /**
  *
@@ -20,16 +19,16 @@ public class StudentController {
         dao.loadDataStudents();
     }
 
-    public List<Student> bubbleSorted(List<Student> students,String orderBy) {
-        return dao.bubbleSorted(students,orderBy);
+    public List<Student> bubbleSorted(String orderBy) {
+        return dao.bubbleSorted(orderBy);
     }
     
     public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {
         return dao.listStudentsAsString(students, orderDescriptionBy);
     }
     
-    public int linearSearch(List<Student> array, String targetName, String field) {
-        return dao.linearSearch(array, targetName, field);
+    public int binarySearch(String targetName, String field) {
+        return dao.binarySearch(targetName, field);
     }
     
     public List<Student> getStudents(){

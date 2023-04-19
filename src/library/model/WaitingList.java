@@ -4,14 +4,13 @@
  */
 package library.model;
 
-import java.util.Iterator;
 import library.utilities.Queue;
 
 /**
  *
  * @author Silvia Shimabuko
  */
-public class WaitingList {
+public class WaitingList implements Comparable<WaitingList>{
 
     public static final String HEAD_CSV = "idBook,idStudents\n";
 
@@ -41,10 +40,15 @@ public class WaitingList {
 
     public String getCSVFormat() {
         StringBuilder sb = new StringBuilder();
-        sb.append(idBook + ",");
+        sb.append(idBook).append(",");
         sb.append(getStudents().getCSVFormat());
         sb.append("\n");
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(WaitingList o) {
+       return idBook.compareTo(o.getIdBook());
     }
 
     

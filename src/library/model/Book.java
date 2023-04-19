@@ -8,14 +8,16 @@ package library.model;
  *
  * @author Silvia Shimabuko
  */
-public class Book {
+public class Book implements Comparable<Book>{
     private String id;
     private String authorFirstName;
     private String authorLastName;
     private String title;
     private String genre; // create enum ????
 
-    //CONSTRUCTOR
+    //CONSTRUCTORES
+    public Book() {}//necessary for comparator class
+
     public Book(String id, String authorFirstName, String authorLastName, String title, String genre) {
         this.id = id;
         this.authorFirstName = authorFirstName;
@@ -82,6 +84,11 @@ public class Book {
         }else{
             return toString();
         }
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return id.compareTo(o.getId());
     }
     
 }

@@ -6,7 +6,10 @@ package library.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import library.comparator.ComparatorBookByAuthor;
+import library.comparator.ComparatorBookByTitle;
 import library.model.Book;
+import library.utilities.BinarySearch;
 import library.utilities.Commons;
 import library.utilities.ReadCSV;
 
@@ -28,7 +31,7 @@ public class BookDAO {
             for (String line : lines) {
                 //this pattern is to ignore to split by comma when it is inside of quotes
                 String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                Book book = new Book(data[0], data[1], data[2], data[3], data[4]);
+                Book book = new Book(data[0], data[1], data[2], data[3].replace("\"", ""), data[4]);
                 books.add(book);
             }
         }
@@ -38,32 +41,24 @@ public class BookDAO {
         return books;
     }
     
-    public int linearSearch(String targetName, String field) {
+    public int binarySearch(String targetName, String field) {
         targetName = Commons.removeAccents(targetName);
+        Book target = new Book();
+        bubbleSorted(field); //need to sort before to search in a binary search
         
-        if (field.equalsIgnoreCase("title")) {
-            for (int i = 0; i < books.size(); i++) {
-                String title = Commons.removeAccents(books.get(i).getTitle());
-                if (title.equalsIgnoreCase(targetName)) {
-                    return i;
-                }
-            }
+        if (field.equalsIgnoreCase("title")) {    
+            target.setTitle(targetName);
+            return BinarySearch.binarySearch(books, target, new ComparatorBookByTitle());
         }else if(field.equalsIgnoreCase("author")){//search by author
-            for (int i = 0; i < books.size(); i++) {
-                if (Commons.removeAccents(books.get(i).getFullName()).equalsIgnoreCase(targetName)) {
-                    return i;
-                }
-            }
+            target.setAuthorFirstName(targetName.split(" ")[0]);
+            target.setAuthorLastName(targetName.split(" ")[1]);
+            return BinarySearch.binarySearch(books, target, new ComparatorBookByAuthor());
         }else if(field.equalsIgnoreCase("id")){//search by book id
-            for (int i = 0; i < books.size(); i++) {
-                if (books.get(i).getId().equalsIgnoreCase(targetName)) {
-                    return i;
-                }
-            }
+            target.setId(targetName);
+            return BinarySearch.binarySearch(books, target, null);
         }else{//invalid field
             return -1;
         }
-        return -1;
     }
     
     public String listBooksAsString(List<Book> books,String orderDescriptionBy) {
@@ -80,7 +75,7 @@ public class BookDAO {
     }
     
     //Used do/while because it is faster then nested for
-    public List<Book> bubbleSorted(List<Book> books,String orderBy) {
+    public List<Book> bubbleSorted(String orderBy) {
         Book temp;
         boolean swap = false;
         do {
@@ -91,11 +86,14 @@ public class BookDAO {
             for (int j = 0; j < books.size() - 1; j++) {
 
                 if (orderBy.equalsIgnoreCase("author")) {
-                    s1 = books.get(j).getFullName();
-                    s2 = books.get(j + 1).getFullName();
-                } else {//order by title
-                    s1 = books.get(j).getTitle();
-                    s2 = books.get(j + 1).getTitle();
+                    s1 = Commons.removeAccents(books.get(j).getFullName());
+                    s2 = Commons.removeAccents(books.get(j + 1).getFullName());
+                } else if (orderBy.equalsIgnoreCase("title")) {//order by title  
+                    s1 = Commons.removeAccents(books.get(j).getTitle());
+                    s2 = Commons.removeAccents(books.get(j + 1).getTitle());
+                } else {//order by title  
+                    s1 = books.get(j).getId();
+                    s2 = books.get(j + 1).getId();
                 }
 
                 int compare = s1.compareTo(s2);

@@ -22,7 +22,7 @@ public class StudentView {
         int searchId = InputUtils.getUserInt("Type the id of the student", ColorMessage.BLUE);
         Menu.printSearching("student");
 
-        int indexStudent = sc.linearSearch(sc.getStudents(), String.valueOf(searchId), "id");
+        int indexStudent = sc.binarySearch(String.valueOf(searchId), "id");
         if (indexStudent < 0) {
             Menu.printItemNotFound("student", String.valueOf(searchId));
             return null;
@@ -38,7 +38,7 @@ public class StudentView {
         } else {
             ColorMessage.print("Id\t-\tName\t-\tAddress \n", ColorMessage.BOLD_GRAY);
         }
-        List<Student> students = sc.bubbleSorted(sc.getStudents(), field);
+        List<Student> students = sc.bubbleSorted(field);
         System.out.println(sc.listStudentsAsString(students, field));
     }
 
@@ -53,7 +53,7 @@ public class StudentView {
         }
 
         Menu.printSearching("student");
-        int indexStudent = sc.linearSearch(sc.getStudents(), target, field);
+        int indexStudent = sc.binarySearch(target, field);
         if (indexStudent < 0) {
             Menu.printItemNotFound("student", target);
         } else {

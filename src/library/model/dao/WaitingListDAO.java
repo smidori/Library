@@ -30,14 +30,16 @@ public class WaitingListDAO {
     public void loadDataWaitingList() {
         waitingList = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
-
+        //the amount of students will be the size of the queue for waiting list book
+        int amountStudents = studentDAO.getStudents().size();        
+        
         List<String> lines = reader.readFile(FILE_WAITING_LIST);
-
         if (lines != null) {
             for (String line : lines) {
                 String[] data = line.split(",",-1);
                 String[] idStudentsStr = data[1].split("\\|");
-                Queue idStudents = new Queue();
+                
+                Queue idStudents = new Queue(amountStudents);
                 for (String idStudentsStr1 : idStudentsStr) {
                     idStudents.Enqueue(idStudentsStr1);
                 }
@@ -68,7 +70,8 @@ public class WaitingListDAO {
     }
 
     public void add(Student student, Book book) {
-        Queue studentsIdWL = new Queue();
+        int amountStudents = studentDAO.getStudents().size();
+        Queue studentsIdWL = new Queue(amountStudents);
         studentsIdWL.Enqueue(student.getId() + "");
         WaitingList newWaitingList = new WaitingList(book.getId(), studentsIdWL);
         waitingList.add(newWaitingList);
@@ -111,7 +114,6 @@ public class WaitingListDAO {
                 return i;
             }
         }
-
         return -1;
     }
 

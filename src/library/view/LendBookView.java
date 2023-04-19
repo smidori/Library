@@ -19,7 +19,7 @@ import library.utilities.ColorMessage;
 public class LendBookView {
 
     private static LendBookController lbc = new LendBookController();
-
+    
     public void addLendBook(Book book, Student student) {
         lbc.add(book, student);
         lbc.save();

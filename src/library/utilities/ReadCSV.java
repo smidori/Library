@@ -28,7 +28,8 @@ public class ReadCSV {
             scanner.useDelimiter("\n");
             while (scanner.hasNext()) {
                 String line = scanner.next();
-                lines.add(line);
+                //replace any carriage return if found
+                lines.add(line.replace("\r", ""));
             }
             lines.remove(0); //remove header
             scanner.close();

@@ -5,10 +5,11 @@
 package library.controller;
 
 import java.util.List;
+import java.util.Map;
 import library.model.Book;
 import library.model.Student;
-import library.model.WaitingList;
 import library.model.dao.WaitingListDAO;
+import library.utilities.Queue;
 
 /**
  *
@@ -20,10 +21,6 @@ public class WaitingListController {
     
     public void loadDataWaitingList(){
         dao.loadDataWaitingList();
-    }
-    
-    public int linearSearch(List<WaitingList> array, String target) {
-        return dao.linearSearch(array, target);
     }
     
     public void add(Student student, Book book) {
@@ -42,7 +39,7 @@ public class WaitingListController {
         return dao.findStudentsWaitingListbyIdBook(idBook);
     }
     
-    public List<WaitingList> getWaitingList() {
+    public Map<String, Queue> getWaitingList() {
         return dao.getWaitingList();
     }
     

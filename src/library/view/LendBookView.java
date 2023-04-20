@@ -23,7 +23,7 @@ public class LendBookView {
     public void addLendBook(Book book, Student student) {
         lbc.add(book, student);
         lbc.save();
-        ColorMessage.print("Operation completed successfully", ColorMessage.GREEN);
+        ColorMessage.print("The lending book was completed successfully", ColorMessage.GREEN);
     }
     
     public void returnBook(String idBook) {        

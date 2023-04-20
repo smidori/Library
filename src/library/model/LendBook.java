@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import library.utilities.DateUtils;
 
 /**
- *
+ * 
  * @author Silvia Shimabuko
  */
 public class LendBook {
@@ -20,7 +20,7 @@ public class LendBook {
     private LocalDateTime borrowDate;
     private LocalDateTime returnDate;
     
-
+    //Constructor
     public LendBook(String id, String idBook, int idStudent, LocalDateTime borrowDate, LocalDateTime returnDate) {
         this.id = id;
         this.idBook = idBook;
@@ -69,6 +69,10 @@ public class LendBook {
         this.returnDate = returnDate;
     }
     
+    /**
+     * return this object in csv format string
+     * @return 
+     */
     public String getCSVFormat(){
         StringBuilder sb = new StringBuilder();
         sb.append(id).append(",").append(idBook).append(",").append(idStudent).append(",");

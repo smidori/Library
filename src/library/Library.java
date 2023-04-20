@@ -57,11 +57,10 @@ public class Library {
         int selectedMenu;
 
         String currentMenu = menu.mainMenu();
-        int qttMenuItens = 15;
+        int qttMenuItens = 15; //necessary to control until which number the user can type
         selectedMenu = InputUtils.getUserIntBetween(currentMenu, 0, qttMenuItens, ColorMessage.BLUE);
 
         while (selectedMenu != 0) {//ask to type a number until the user type 0 in the main menu
-            String msg;
 
             switch (selectedMenu) {
                 case 1: //list all books ordered by title
@@ -82,27 +81,21 @@ public class Library {
                     bv.searchBook("id");
                     break;
                 }
-                case 6:{//search book by the text
-                    String search = InputUtils.getUserText("Type the word for search in id, title and/or author", ColorMessage.BLUE);
-                    List<Book> books = bc.findBookContains(search);
-                    if(books.isEmpty()){
-                        ColorMessage.print("This word ["+search+"] wasn't find in any book", ColorMessage.PINK);
-                    }else{
-                        bv.listBooks(books, "title");
-                    }
+                case 6: {//Search the book that contains the word in id, title and/or author, 
+                    //the accents in this type of search matters
+                    bv.searchBookByAnyWord();
                     break;
                 }
                 case 7: {//list student ordered by name
                     String field = "name";
-                    List<Student> students = sc.bubbleSorted(field);
-                    sv.listStudents(students, field);
+                    sc.mergeSort(field);
+                    sv.listStudents(sc.getStudents(), field);
                     break;
                 }
                 case 8: {//list student ordered by id
-                    //sv.listStudents("id");
                     String field = "id";
-                    List<Student> students = sc.bubbleSorted(field);
-                    sv.listStudents(students, field);
+                    sc.mergeSort(field);
+                    sv.listStudents(sc.getStudents(), field);
                     break;
                 }
                 case 9: {//search the student by name
@@ -113,34 +106,35 @@ public class Library {
                     sv.search("id");
                     break;
                 }
-                case 11: {
+                case 11: { //lend book
                     Book book = bv.searchBookbyId();
                     if (book != null) {
                         Student student = sv.searchStudentById();
                         if (student != null) {
+                            //check if this book is already lent to someone
                             int indexLendBook = lbc.searchLastRegisterByIdBook(book.getId(), true);
-                            if (indexLendBook >= 0) {//add to the waiting list
+                            if (indexLendBook >= 0) {//book already lent
                                 if (lbc.getLendBooks().get(indexLendBook).getIdStudent() == student.getId()) {
                                     ColorMessage.print("This book is already lent to this student", ColorMessage.PINK);
                                 } else {
                                     ColorMessage.print("This book is already lent to another student", ColorMessage.PINK);
-                                    wlv.addWaitingList(book, student);
+                                    
+                                    //might add the student to waiting list
+                                    wlv.addWaitingList(book, student); 
                                 }
-                            } else {//Add lend Book
-                                //check if there is someone in the waiting list
-                                int indexWL = wlc.linearSearch(wlc.getWaitingList(), book.getId());
-
-                                if (indexWL < 0) {//there is no one in the waiting list
-                                    lbv.addLendBook(book, student);
-                                } else {
-                                    Queue students = wlc.getWaitingList().get(indexWL).getStudents();
+                            } else {//Add lend Book - book is available
+                                //check if there is someone in the waiting list before lent it
+                                Queue students = wlc.getWaitingList().get(book.getId());
+                                if (students == null) {//there is no one in the waiting list
+                                    lbv.addLendBook(book, student); //lent to the student
+                                } else { //there is someone in the waiting list
                                     String firstInQueue = students.First();
                                     if (firstInQueue.equalsIgnoreCase(String.valueOf(student.getId()))) {//should be the first to get this book
                                         lbv.addLendBook(book, student);
                                         //remove this student from the queue;
                                         wlc.removeFirstStudent(book.getId());
                                         wlc.save();
-                                    } else {
+                                    } else {//if isn't the first in the list, do not allow to lent
                                         ColorMessage.print("Sorry, the book is available but there is an waiting list for this book", ColorMessage.PINK);
                                         wlv.addWaitingList(book, student);
                                     }
@@ -150,19 +144,20 @@ public class Library {
                     }
                     break;
                 }
-                case 12: {
+                case 12: { //return the book
                     Book book = bv.searchBookbyId();
                     if (book != null) {
+                        //return the book
                         lbv.returnBook(book.getId());
-                        //check if there. is any waiting list for this book
+                        lbc.save();
+                        
+                        //check if there is any student in the waiting list for this book and show to the user
                         List<Student> students = wlc.findStudentsWaitingListbyIdBook(book.getId());
                         if (!students.isEmpty()) {
                             String message = "There is a waiting list for this book (" + book.getId() + "), with " + students.size() + " student(s)";
                             ColorMessage.print(message, ColorMessage.YELLOW);
                         }
                     }
-                    lbc.save();
-
                     break;
                 }
                 case 13: {//list books lent to the student
@@ -172,7 +167,7 @@ public class Library {
                     }
                     break;
                 }
-                case 14: {//show search waiting list by book id
+                case 14: {// search waiting list by book id
                     String searchIdBook = InputUtils.getUserText("Type the book id", ColorMessage.BLUE);
                     Menu.printSearching("waitling list");
                     List<Student> students = wlc.findStudentsWaitingListbyIdBook(searchIdBook);
@@ -188,14 +183,14 @@ public class Library {
                     String searchIdBook = InputUtils.getUserText("Type the book id", ColorMessage.BLUE);
                     Menu.printSearching("waitling list");
 
-                    int indexWL = wlc.linearSearch(wlc.getWaitingList(), searchIdBook);
-
-                    if (indexWL < 0) {//there is no one in the waiting list
+                    //int indexWL = wlc.linearSearch(wlc.getWaitingList(), searchIdBook);
+                    Queue students = wlc.getWaitingList().get(searchIdBook);
+                    if (students == null) {//there is no one in the waiting list
                         ColorMessage.print("There is no waiting list for this book", ColorMessage.PINK);
                     } else {
                         wlc.removeFirstStudent(searchIdBook);
                         wlc.save();
-                        ColorMessage.print("1° Student removed from the waiting list with success",ColorMessage.GREEN);
+                        ColorMessage.print("1° Student removed from the waiting list with success", ColorMessage.GREEN);
                     }
 
                 }
@@ -204,7 +199,7 @@ public class Library {
                 selectedMenu = InputUtils.getUserIntBetween(currentMenu, 0, qttMenuItens, ColorMessage.BLUE);
             }
         }
-        ColorMessage.print("Program is finalized!!!", ColorMessage.BLUE);
+        ColorMessage.print("Program is finalized!!!", ColorMessage.GREEN);
     }
 
 }

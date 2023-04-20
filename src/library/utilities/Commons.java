@@ -7,7 +7,7 @@ package library.utilities;
 import java.text.Normalizer;
 
 /**
- *
+ * Create to remove the accents from the String when it's necessary to compare
  * @author Silvia Shimabuko
  */
 public class Commons {

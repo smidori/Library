@@ -5,7 +5,9 @@
 package library.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import library.model.Book;
 import library.model.Student;
 import library.model.WaitingList;
@@ -20,15 +22,18 @@ import library.utilities.WriteCSV;
 public class WaitingListDAO {
 
     public static final String FILE_WAITING_LIST = "WAITING_LIST_DATA.csv";
-    private static List<WaitingList> waitingList;
+    private static Map<String, Queue> waitingList;
     private static StudentDAO studentDAO = new StudentDAO();
 
-    public List<WaitingList> getWaitingList() {
+    public Map<String, Queue> getWaitingList() {
         return waitingList;
     }
-
+    /**
+     * load the csv file
+     */
     public void loadDataWaitingList() {
-        waitingList = new ArrayList<>();
+        waitingList = new HashMap<>();
+
         ReadCSV reader = new ReadCSV();
         //the amount of students will be the size of the queue for waiting list book
         int amountStudents = studentDAO.getStudents().size();
@@ -43,75 +48,69 @@ public class WaitingListDAO {
                 for (String idStudentsStr1 : idStudentsStr) {
                     idStudents.Enqueue(idStudentsStr1);
                 }
-
-                WaitingList wl = new WaitingList(data[0], idStudents);
-                waitingList.add(wl);
+                waitingList.put(data[0], idStudents);
             }
         }
     }
 
+    /**
+     * Search the students in the waiting list for an specific idBook
+     * @param idBook
+     * @return 
+     */
     public List<Student> findStudentsWaitingListbyIdBook(String idBook) {
         List<Student> students = new ArrayList<>();
-        WaitingList wl = findByIdBook(idBook);
 
-        if (wl != null) {
-            Queue queue = wl.getStudents();
-            if (!queue.isEmpty()) {
-                for (int j = 0; j < queue.size(); j++) {
-                    int idStudent = Integer.parseInt(queue.getData()[j]);
-                    students.add(studentDAO.findById(idStudent));
-                }
+        Queue queue = waitingList.get(idBook);
+        if (queue != null) {
+            for (int j = 0; j < queue.size(); j++) {
+                int idStudent = Integer.parseInt(queue.getData()[j]);
+                students.add(studentDAO.findById(idStudent));
             }
         }
         return students;
     }
-
+    
+    /**
+     * Add student to the waiting list
+     * @param student
+     * @param book 
+     */
     public void add(Student student, Book book) {
         int amountStudents = studentDAO.getStudents().size();
         Queue studentsIdWL = new Queue(amountStudents);
         studentsIdWL.Enqueue(student.getId() + "");
-        WaitingList newWaitingList = new WaitingList(book.getId(), studentsIdWL);
-        waitingList.add(newWaitingList);
+        waitingList.put(book.getId(), studentsIdWL);
     }
-
-    public WaitingList findByIdBook(String idBook) {
-        for (WaitingList wl : waitingList) {
-            if (wl.getIdBook().equalsIgnoreCase(idBook)) {
-                return wl;
-            }
-        }
-        return null;
-    }
-
+    
+    /**
+     * Remove the first student from the waiting list for a specific book
+     * if there is only one in the waiting list, remove this book from the list
+     * @param idBook 
+     */
     public void removeFirstStudent(String idBook) {
-        WaitingList wl = findByIdBook(idBook);
-        if (wl != null) {
-            if (wl.getStudents().size() > 1) {
-                wl.getStudents().Dequeue();
+        Queue queue = waitingList.get(idBook);
+        if (queue != null) {
+            if (queue.size() > 1) {
+                queue.Dequeue();
             } else {
-                waitingList.remove(wl);
+                waitingList.remove(idBook);
             }
         }
     }
-
+    
+    /**
+     * save the list into csv file
+     */
     public void save() {
         List<String> datas = new ArrayList<>();
         datas.add(WaitingList.HEAD_CSV);
-        for (int i = 0; i < waitingList.size(); i++) {
-            datas.add(waitingList.get(i).getCSVFormat());
+
+        for (String key : waitingList.keySet()) {
+            datas.add(new WaitingList(key, waitingList.get(key)).getCSVFormat());
         }
+
         WriteCSV.writefile(WaitingListDAO.FILE_WAITING_LIST, datas);
-    }
-
-    public int linearSearch(List<WaitingList> array, String target) {
-
-        for (int i = 0; i < array.size(); i++) {
-            String idBook = array.get(i).getIdBook();
-            if (idBook.equalsIgnoreCase(target)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
 }

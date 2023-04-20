@@ -19,10 +19,13 @@ import library.utilities.ReadCSV;
  * @author Silvia Shimabuko
  */
 public class BookDAO {
-
+    
     public static final String FILE_BOOK = "BOOKS_DATA.csv";
     private static List<Book> books;
-
+    
+    /**
+     * Load csv data file into java
+     */
     public void loadDataBooks() {
         books = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
@@ -42,7 +45,12 @@ public class BookDAO {
     public List<Book> getBooks() {
         return books;
     }
-
+    /**
+     * Search the target based on the field was choosen
+     * @param targetName - word that needs to be find
+     * @param field - used to choose which comparator will be used
+     * @return 
+     */
     public int binarySearch(String targetName, String field) {
         targetName = Commons.removeAccents(targetName);
         Book target = new Book();
@@ -62,7 +70,13 @@ public class BookDAO {
             return -1;
         }
     }
-
+    
+    /**
+     * Convert the list of books into string
+     * @param books
+     * @param orderDescriptionBy
+     * @return 
+     */
     public String listBooksAsString(List<Book> books, String orderDescriptionBy) {
         StringBuilder sb = new StringBuilder();
 
@@ -76,8 +90,11 @@ public class BookDAO {
         return sb.toString();
     }
 
-    //Used do/while because it is faster then nested for
-    public List<Book> mergeSort(String orderBy) {
+    /**
+     * Use the algorithm mergeSort
+     * @param orderBy -> field that will be used to sort
+     */
+    public void mergeSort(String orderBy) {
         
         if (orderBy.equalsIgnoreCase("author")) {
             MergeSort.divideMerge(books, new ComparatorBookByAuthor());
@@ -87,15 +104,19 @@ public class BookDAO {
         } else {//order by id 
             MergeSort.divideMerge(books, null);
         }
-        return books;
     }
     
+    /**
+     * This method do not ignore the accent
+     * @param target
+     * @return 
+     */
     public List<Book> findBookContains(String target) {
         List<Book> booksSearched = new ArrayList<>();
         target = target.toLowerCase();
 
         for (Book b : books) {
-            String title = Commons.removeAccents(b.getTitle()).toLowerCase();
+            String title = b.getTitle().toLowerCase();
             if (title.contains(target)
                     || b.getFullName().toLowerCase().contains(target)
                     || b.getId().toLowerCase().contains(target)) {

@@ -30,9 +30,13 @@ public class BookView {
         }
     }
     
+    /**
+     * Search the book based the field in the menu option selected
+     * @param field 
+     */
     public void searchBook(String field) {
         String search ="";
-        boolean invalidSearch;
+        boolean invalidSearch;//used to control if was typed a full name
         do{
             invalidSearch=false;
             search = InputUtils.getUserText("Enter the " + field, ColorMessage.BLUE);
@@ -55,14 +59,41 @@ public class BookView {
             System.out.println("BOOK \n" + bc.getBooks().get(indexBook).toString() + "\n");
         }
     }
-
+    /**
+     * List books with the fields in different position depends on the field parameter
+     * @param field 
+     */
     public void listBooks(String field) {
-        List<Book> books = bc.bubbleSorted(field);
-        System.out.println("BOOKS LIST\n" + bc.listBooksAsString(books, field));
+        bc.mergeSort(field);
+        if (field.equalsIgnoreCase("author")) {
+            ColorMessage.print("\t\t\tId\t\t-\tAuthor\t-\tTitle\n", ColorMessage.BOLD_GRAY);
+        } else {
+            ColorMessage.print("\t\t\tId\t\t-\tTitle\t-\tAuthor\n", ColorMessage.BOLD_GRAY);
+        }
+        System.out.println(bc.listBooksAsString(bc.getBooks(), field));
     }
     
     public void listBooks(List<Book> books, String field) {
-        System.out.println("BOOKS LIST\n" + bc.listBooksAsString(books, field));
+        if (field.equalsIgnoreCase("author")) {
+            ColorMessage.print("Id\t-\tAuthor\t-\tTitle\n", ColorMessage.BOLD_GRAY);
+        } else {
+            ColorMessage.print("Id\t-\tTitle\t-\tAuthor\n", ColorMessage.BOLD_GRAY);
+        }
+        System.out.println(bc.listBooksAsString(books, field));
+    }
+    
+    /**
+     * Search the book that contains the word in id, title and/or author
+     */
+    public void searchBookByAnyWord() {
+        //search book by the text
+        String search = InputUtils.getUserText("Type the word for search in id, title and/or author", ColorMessage.BLUE);
+        List<Book> books = bc.findBookContains(search);
+        if (books.isEmpty()) {
+            ColorMessage.print("This word [" + search + "] wasn't find in any book", ColorMessage.PINK);
+        } else {
+            listBooks(books, "title");
+        }
     }
 
 }

@@ -26,29 +26,6 @@ public class LendBookController {
         dao.loadDataLendBooks();
     }
 
-//    public int linearSearch(List<LendBook> array, String target, String field) {
-//        //targetName = Commons.removeAccents(targetName);
-//        
-//        if (field.equalsIgnoreCase("idBook")) {
-//            for (int i = 0; i < array.size(); i++) {
-//                String idBook = array.get(i).getIdBook();
-//                if (idBook.equalsIgnoreCase(target)) {
-//                    return i;
-//                }
-//            }
-//        }else if(field.equalsIgnoreCase("idStudent")){//search by idStudent
-//            int idStudent = Integer.parseInt(target);
-//            
-//            for (int i = 0; i < array.size(); i++) {
-//                if (array.get(i).getIdStudent() == (idStudent)) {
-//                    return i;
-//                }
-//            }
-//        }else{//invalid field
-//            return -1;
-//        }
-//        return -1;
-//    }
     public int searchLastRegisterByIdBook(String idBook, boolean isLent) {
         return dao.searchLastRegisterByIdBook(idBook, isLent);
     }

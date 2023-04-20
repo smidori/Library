@@ -30,7 +30,11 @@ public class StudentView {
             return sc.getStudents().get(indexStudent);
         }
     }
-
+    /**
+     * List students with the fields in different position depends on the field parameter
+     * @param students
+     * @param field 
+     */
     public void listStudents(List<Student> students, String field) {
         if (field.equalsIgnoreCase("name")) {
             ColorMessage.print("Name\t-\tId\t-\tEmail\t-\tAddress \n", ColorMessage.BOLD_GRAY);
@@ -40,11 +44,15 @@ public class StudentView {
         System.out.println(sc.listStudentsAsString(students, field));
     }
 
+    /**
+     * Search the student based the field in the menu option selected
+     * @param field 
+     */
     public void search(String field) {
         String target = "";
         
         if (field.equalsIgnoreCase("name")) {
-            boolean invalid;
+            boolean invalid; //used to control if typed a full name (names between spaces)
             do{
                 invalid = false;
                 String searchName = InputUtils.getUserText("Type the student " + field, ColorMessage.BLUE);
@@ -56,7 +64,7 @@ public class StudentView {
                 }
             }while(invalid);
             
-        } else {
+        } else { //search by id
             int searchId = InputUtils.getUserInt("Type the student " + field, ColorMessage.BLUE);
             target = String.valueOf(searchId);
         }

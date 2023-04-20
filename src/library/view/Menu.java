@@ -40,9 +40,6 @@ public class Menu {
         String lr4 = String.format(fmt, "14 - Search waiting list by book id");
         String lr5 = String.format(fmt, "15 - Remove 1° student from Waiting List");
         String lr6 = String.format(fmt, "");
-     
-        
-        
         
         sb.append(bTitle + "| " + sTitle + "| " + lrTitle +"\n");  
         sb.append(b1 + "| " + s1 + "| " + lr1 + "\n");
@@ -52,10 +49,7 @@ public class Menu {
         sb.append(b5 + "| " + s5 + "| " + lr5 + "\n");
         sb.append(b6 + "| " + s6 + "| " + lr6 + "\n\n");
         sb.append(" 0 - Exit \n");
-        
 
-        
-        
         sb.append("Select an option: \n");
         return sb.toString();
     }

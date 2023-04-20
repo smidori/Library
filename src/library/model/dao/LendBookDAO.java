@@ -27,6 +27,9 @@ public class LendBookDAO {
         return lendBooks;
     }
     
+    /**
+     * Load the csv file data into java
+     */
     public void loadDataLendBooks() {
         lendBooks = new ArrayList<>();
         

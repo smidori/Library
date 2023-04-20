@@ -46,6 +46,12 @@ public class InputUtils {
         return userInput;
     }
     
+    /**
+     * Ask the user to type a number
+     * @param prompt
+     * @param color
+     * @return 
+     */
     public static int getUserInt(String prompt, String color) {
 
         Scanner myKB = new Scanner(System.in);
@@ -53,10 +59,8 @@ public class InputUtils {
         boolean valid = false;
 
         do {
-            //System.out.println("\n*********");
-            //System.out.println(prompt);
             ColorMessage.print(prompt, color);
-            //System.out.println("*********");
+
             try {
                 userInput = myKB.nextInt(); //get a int
                 valid = true;
@@ -69,17 +73,35 @@ public class InputUtils {
         return userInput;
     }
 
+    /**
+     * Ask to user to type some text
+     * @param prompt
+     * @param color
+     * @return 
+     */
     public static String getUserText(String prompt, String color) {
-        Scanner myKB = new Scanner(System.in,"ISO_8859_1");
         String userInput;
+        boolean invalid;
+        do{
+            invalid = false;
+            //used the charset to treat when the user type words with accents
+            Scanner myKB = new Scanner(System.in, "ISO_8859_1");
+            ColorMessage.print(prompt, color);
+            userInput = myKB.nextLine().trim(); // get input
+            
+            if (userInput.length() == 0) {
+                ColorMessage.print("Invalid text ", ColorMessage.PINK);
+                invalid = true;
+            }
+        }while(invalid);
         
-        //System.out.println(prompt);
-        ColorMessage.print(prompt, color);
-        userInput = myKB.nextLine().trim(); // get input
         return userInput;
-
     }
     
+    /**
+     * Ask to use press enter to show the menu again
+     * @return 
+     */
     public static boolean getUserPressEnter() {
         String prompt = "\nPress \"Enter key\" to show the options";
         Scanner myKB = new Scanner(System.in);
@@ -87,8 +109,6 @@ public class InputUtils {
         String userInput;
 
         do {
-
-            //System.out.println(prompt);
             ColorMessage.print(prompt,ColorMessage.BLUE);
             
             userInput = myKB.nextLine().trim(); // get input
@@ -97,10 +117,9 @@ public class InputUtils {
                 //this is valid input
                 valid = true;
             } else {
-                //not valid text
+                //not valid key
                 System.err.println("Invalid - press enter key only please");
             }
-
         } while (!valid); //keep going until valid input received
 
         return valid;

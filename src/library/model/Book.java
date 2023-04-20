@@ -5,7 +5,7 @@
 package library.model;
 
 /**
- *
+ * This class implements the Comparable for the binary search and merge sort
  * @author Silvia Shimabuko
  */
 public class Book implements Comparable<Book>{
@@ -13,10 +13,10 @@ public class Book implements Comparable<Book>{
     private String authorFirstName;
     private String authorLastName;
     private String title;
-    private String genre; // create enum ????
+    private String genre; 
 
     //CONSTRUCTORES
-    public Book() {}//necessary for comparator class
+    public Book() {}//necessary for comparator class, to set the property that needs to be search
 
     public Book(String id, String authorFirstName, String authorLastName, String title, String genre) {
         this.id = id;
@@ -72,7 +72,7 @@ public class Book implements Comparable<Book>{
      
     @Override
     public String toString(){
-        return "Title: " + title +"\nid: "+getId() +"\nAuthor: " + getFullName() + "\ngenre(s): " + genre;
+        return "Title: " + title +"\nId: "+getId() +"\nAuthor: " + getFullName() + "\nGenre(s): " + genre;
     }
     
     

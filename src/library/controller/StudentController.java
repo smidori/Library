@@ -19,8 +19,8 @@ public class StudentController {
         dao.loadDataStudents();
     }
 
-    public List<Student> bubbleSorted(String orderBy) {
-        return dao.mergeSort(orderBy);
+    public void mergeSort(String orderBy) {
+        dao.mergeSort(orderBy);
     }
     
     public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {

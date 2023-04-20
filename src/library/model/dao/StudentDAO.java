@@ -24,7 +24,10 @@ public class StudentDAO {
     public List<Student> getStudents() {
         return students;
     }
-
+    
+    /**
+     * load csv data file into java
+     */
     public void loadDataStudents() {
         students = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
@@ -42,6 +45,11 @@ public class StudentDAO {
         }
     }
 
+    /**
+     * Find student by id
+     * @param idStudent
+     * @return 
+     */
     public Student findById(int idStudent) {
         if (!students.isEmpty()) {
             for (Student student : students) {
@@ -53,16 +61,25 @@ public class StudentDAO {
         return null;
     }
 
-    public List<Student> mergeSort(String orderBy) {
+    /**
+     * Use to sort the list, based on the the orderBy parameter
+     * @param orderBy
+     */
+    public void mergeSort(String orderBy) {
          if (orderBy.equalsIgnoreCase("name")) {
-            return MergeSort.divideMerge(students,new ComparatorStudentByName());
+            MergeSort.divideMerge(students,new ComparatorStudentByName());
         } else {//order by id
-            return MergeSort.divideMerge(students,null);
+            MergeSort.divideMerge(students,null);
         }
     }
-
+    
+    /**
+     * Find the element based on the field that was choosen
+     * @param target
+     * @param field
+     * @return 
+     */
     public int binarySearch(String target, String field) {
-        //targetName = Commons.removeAccents(targetName);
         mergeSort(field);//sort the list before do the search
         Student student = new Student();
         
@@ -78,6 +95,13 @@ public class StudentDAO {
         }
     }
 
+    /**
+     * Convert the list of students to String, needs to pass the list because it would 
+     * be used for a students list present in waiting list 
+     * @param students
+     * @param orderDescriptionBy
+     * @return 
+     */
     public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {
         StringBuilder sb = new StringBuilder();
 

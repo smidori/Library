@@ -23,8 +23,8 @@ public class BookController {
         return dao.listBooksAsString(books, orderDescriptionBy);
     }
     
-    public List<Book> bubbleSorted(String orderBy) {
-        return dao.mergeSort(orderBy);
+    public void mergeSort(String orderBy) {
+        dao.mergeSort(orderBy);
     }
 
     public int binarySearch(String targetName, String field) {

@@ -37,7 +37,11 @@ public class WaitingList implements Comparable<WaitingList>{
     public void setStudents(Queue students) {
         this.students = students;
     }
-
+    
+    /**
+     * return this object in csv format string
+     * @return 
+     */
     public String getCSVFormat() {
         StringBuilder sb = new StringBuilder();
         sb.append(idBook).append(",");

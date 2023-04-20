@@ -5,7 +5,7 @@
 package library.model;
 
 /**
- *
+ * This class implements the Comparable for the binary search and merge sort
  * @2022443Maria
  */
 public class Student implements Comparable<Student> {
@@ -16,8 +16,7 @@ public class Student implements Comparable<Student> {
     private String address;
     private String email;
 
-    public Student() {
-    }
+    public Student() {} //necessary for comparator class, to set the property that needs to be search
 
     public Student(int id, String firstName, String lastName, String address,String email) {
         this.id = id;

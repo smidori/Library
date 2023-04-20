@@ -31,8 +31,22 @@ public class BookView {
     }
     
     public void searchBook(String field) {
-        String search = InputUtils.getUserText("Enter the " + field, ColorMessage.BLUE);
+        String search ="";
+        boolean invalidSearch;
+        do{
+            invalidSearch=false;
+            search = InputUtils.getUserText("Enter the " + field, ColorMessage.BLUE);
+            //check if it's a full name
+            if(field.equalsIgnoreCase("author")){
+                if(!search.trim().contains(" ")){
+                    ColorMessage.print("Please, type first and last name", ColorMessage.PINK);
+                    invalidSearch = true;
+                }
+            }
+        }while(invalidSearch);
+        
         Menu.printSearching(field);
+        
         int indexBook = bc.binarySearch(search, field);
         
         if (indexBook < 0) {

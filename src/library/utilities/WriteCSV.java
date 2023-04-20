@@ -23,7 +23,7 @@ public class WriteCSV {
         File file = new File(filePath);
 
         if (file.exists()) {
-            file.renameTo(new File(filePath + "_old"));
+            file.renameTo(new File(filePath + "_bkp"));
         }
 
         try {

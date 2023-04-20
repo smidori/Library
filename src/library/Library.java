@@ -135,7 +135,6 @@ public class Library {
                                         wlv.addWaitingList(book, student);
                                     }
                                 }
-                                //ff2dea5d-1406-48c7-9143-fe5a4c1a9123
                             }
                         }
                     }
@@ -189,6 +188,8 @@ public class Library {
                         ColorMessage.print("1° Student removed from the waiting list with success",ColorMessage.GREEN);
                     }
 
+                }case 15:{//search book by the text
+                    
                 }
             }
             if (InputUtils.getUserPressEnter()) {

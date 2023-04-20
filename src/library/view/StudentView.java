@@ -42,9 +42,20 @@ public class StudentView {
 
     public void search(String field) {
         String target = "";
+        
         if (field.equalsIgnoreCase("name")) {
-            String searchName = InputUtils.getUserText("Type the student " + field, ColorMessage.BLUE);
-            target = searchName;
+            boolean invalid;
+            do{
+                invalid = false;
+                String searchName = InputUtils.getUserText("Type the student " + field, ColorMessage.BLUE);
+                target = searchName;
+                //check if it's a full name
+                if(!target.trim().contains(" ")){
+                    ColorMessage.print("Please, type first and last name", ColorMessage.PINK);
+                    invalid = true;
+                }
+            }while(invalid);
+            
         } else {
             int searchId = InputUtils.getUserInt("Type the student " + field, ColorMessage.BLUE);
             target = String.valueOf(searchId);

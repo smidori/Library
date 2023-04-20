@@ -6,6 +6,7 @@ package library.comparator;
 
 import java.util.Comparator;
 import library.model.Book;
+import library.utilities.Commons;
 
 /**
  *
@@ -15,7 +16,9 @@ public class ComparatorBookByAuthor implements Comparator<Book>{
 
     @Override
     public int compare(Book o1, Book o2) {
-        return o1.getFullName().toLowerCase().compareTo(o2.getFullName().toLowerCase());
+        String fullName1 = Commons.removeAccents(o1.getFullName()).toLowerCase();
+        String fullName2 = Commons.removeAccents(o2.getFullName()).toLowerCase();
+        return fullName1.compareTo(fullName2);
     }
     
 }

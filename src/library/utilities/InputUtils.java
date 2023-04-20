@@ -27,17 +27,21 @@ public class InputUtils {
         Scanner myKB = new Scanner(System.in);
         int userInput = 0;
         boolean valid = false;
+        boolean invalidRange = false;
         do {
             ColorMessage.print(prompt, color);
-
             try {
                 userInput = myKB.nextInt(); //get a int
                 valid = true;
+                invalidRange = (userInput < minValue) || (userInput > maxValue);
+                if(invalidRange){
+                    ColorMessage.print("The number must be between " + minValue + " and " + maxValue, ColorMessage.PINK);
+                }
             } catch (Exception e) {//throws exception in case the input wasn't a number
                 ColorMessage.print("The number must be between " + minValue + " and " + maxValue, ColorMessage.PINK);
                 myKB.nextLine(); //force to enter a number
             }
-        } while ((!valid) || (userInput < minValue) || (userInput > maxValue));//keep asking a number in case it wasn't valid
+        } while ((!valid) || invalidRange );//keep asking a number in case it wasn't valid
 
         return userInput;
     }

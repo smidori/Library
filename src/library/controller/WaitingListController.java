@@ -38,8 +38,8 @@ public class WaitingListController {
         dao.save();
     }
     
-    public List<Student> findStudentsWaitingListbyIdBook(String target) {
-        return dao.findStudentsWaitingListbyIdBook(target);
+    public List<Student> findStudentsWaitingListbyIdBook(String idBook) {
+        return dao.findStudentsWaitingListbyIdBook(idBook);
     }
     
     public List<WaitingList> getWaitingList() {

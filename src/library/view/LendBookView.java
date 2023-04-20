@@ -35,7 +35,7 @@ public class LendBookView {
             LendBook lb = lbc.getLendBooks().get(indexLendBook);
             lb.setReturnDate(LocalDateTime.now());
             
-            System.out.println("Book returned with success!!!");
+            ColorMessage.print("Book returned with success!!!",ColorMessage.GREEN);
         }
     }
     

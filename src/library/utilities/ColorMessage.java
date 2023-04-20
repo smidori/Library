@@ -16,6 +16,7 @@ public class ColorMessage {
     public static final String BLUE = "BLUE";
     public static final String GREEN = "GREEN";
     public static final String BOLD_GRAY = "BOLD_GRAY";
+    public static final String YELLOW = "YELLOW";
 
     /**
      * Print the message in a different color
@@ -39,10 +40,13 @@ public class ColorMessage {
                     colorCode = "\033[34m";
                     break;
                 case GREEN:
-                    colorCode = "\033[32m";
+                    colorCode = "\033[2;32m";
                     break;
                 case BOLD_GRAY:
                     colorCode = "\033[1;30m";
+                    break;
+                case YELLOW:
+                    colorCode = "\033[2;33m";
                     break;
                 default:
                     colorCode = "\033[0m";

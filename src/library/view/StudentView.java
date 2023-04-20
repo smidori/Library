@@ -31,14 +31,12 @@ public class StudentView {
         }
     }
 
-    public void listStudents(String field) {
-        ColorMessage.print("\nList of students ordered by " + field, ColorMessage.BOLD_GRAY);
+    public void listStudents(List<Student> students, String field) {
         if (field.equalsIgnoreCase("name")) {
-            ColorMessage.print("Name\t-\tId\t-\tAddress \n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Name\t-\tId\t-\tEmail\t-\tAddress \n", ColorMessage.BOLD_GRAY);
         } else {
-            ColorMessage.print("Id\t-\tName\t-\tAddress \n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Id\t-\tName\t-\tEmail\t-\tAddress \n", ColorMessage.BOLD_GRAY);
         }
-        List<Student> students = sc.bubbleSorted(field);
         System.out.println(sc.listStudentsAsString(students, field));
     }
 

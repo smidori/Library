@@ -33,16 +33,13 @@ public class BookView {
     public void searchBook(String field) {
         String search = InputUtils.getUserText("Enter the " + field, ColorMessage.BLUE);
         Menu.printSearching(field);
-        //int indexBook = bc.linearSearch(search, field);
         int indexBook = bc.binarySearch(search, field);
         
-        //int indexBook = BinarySearch.binarySearch(list, search, new ComparatorBookByTitle())
         if (indexBook < 0) {
             Menu.printItemNotFound("book", search);
         } else {
             System.out.println("BOOK \n" + bc.getBooks().get(indexBook).toString() + "\n");
         }
-
     }
 
     public void listBooks(String field) {

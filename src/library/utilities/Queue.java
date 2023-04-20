@@ -114,4 +114,10 @@ public class Queue {
         }
         return sb.toString();
     }
+
+    public String[] getData() {
+        return data;
+    }
+    
+    
 }

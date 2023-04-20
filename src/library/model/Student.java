@@ -14,14 +14,17 @@ public class Student implements Comparable<Student> {
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
 
-    public Student() {}
-    
-    public Student(int id, String firstName, String lastName, String address) {
+    public Student() {
+    }
+
+    public Student(int id, String firstName, String lastName, String address,String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.email = email;
     }
 
     public int getId() {
@@ -56,28 +59,36 @@ public class Student implements Comparable<Student> {
         this.address = address;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public String getFullName() {
         return firstName + " " + lastName;
     }
-
-      public String orderedDescriptionBy(String order){
+    
+    public String orderedDescriptionBy(String order){
         if(order.equalsIgnoreCase("name")){
-            return getFullName()+ " - "  + id  +" - " + address +"\n";
+            return getFullName()+ " - "  + id  +" - " + email + " - " + address+"\n";
         }else if(order.equalsIgnoreCase("id")){
-           return id + " - " +getFullName() +" - " + address +"\n";
+           return id + " - " +getFullName() +" - "+ email +" - " + address +"\n";
         }else{
             return toString();
         }
     }
     
     @Override
-    public String toString(){
-        return "Name:" + getFullName() +"\nId:"+getId() +"\nAddress:" + getAddress();
+    public String toString() {
+        return "Name:" + getFullName() + "\nId:" + getId() + "\nEmail: " + getEmail() + "\nAddress:" + getAddress();
     }
 
     @Override
     public int compareTo(Student o) {
         return Integer.compare(id, o.getId());
     }
-    
+
 }

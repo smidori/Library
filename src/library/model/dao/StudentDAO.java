@@ -35,7 +35,7 @@ public class StudentDAO {
 
                 String[] data = line.split(",");
 
-                Student student = new Student(Integer.parseInt(data[0]), data[1], data[2], data[3]);
+                Student student = new Student(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4]);
                 students.add(student);
             }
         }

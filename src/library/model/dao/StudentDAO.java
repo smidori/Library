@@ -9,6 +9,7 @@ import java.util.List;
 import library.comparator.ComparatorStudentByName;
 import library.model.Student;
 import library.utilities.BinarySearch;
+import library.utilities.MergeSort;
 import library.utilities.ReadCSV;
 
 /**
@@ -52,40 +53,17 @@ public class StudentDAO {
         return null;
     }
 
-    public List<Student> bubbleSorted(String orderBy) {
-        Student temp;
-        boolean swap;
-        do {
-            swap = false;
-            String s1;
-            String s2;
-
-            for (int j = 0; j < students.size() - 1; j++) {
-
-                if (orderBy.equalsIgnoreCase("name")) {
-                    s1 = students.get(j).getFullName();
-                    s2 = students.get(j + 1).getFullName();
-                } else {//order by id
-                    s1 = students.get(j).getId() + "";
-                    s2 = students.get(j + 1).getId() + "";
-                }
-
-                int compare = s1.compareTo(s2);
-
-                if (compare > 0) { //s1 > s2
-                    temp = students.get(j);
-                    students.set(j, students.get(j + 1));
-                    students.set(j + 1, temp);
-                    swap = true;
-                }
-            }
-        } while (swap);
-        return students;
+    public List<Student> mergeSort(String orderBy) {
+         if (orderBy.equalsIgnoreCase("name")) {
+            return MergeSort.divideMerge(students,new ComparatorStudentByName());
+        } else {//order by id
+            return MergeSort.divideMerge(students,null);
+        }
     }
 
     public int binarySearch(String target, String field) {
         //targetName = Commons.removeAccents(targetName);
-        bubbleSorted(field);//sort the list before do the search
+        mergeSort(field);//sort the list before do the search
         Student student = new Student();
         
         if (field.equalsIgnoreCase("name")) {

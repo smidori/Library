@@ -20,7 +20,7 @@ public class StudentController {
     }
 
     public List<Student> bubbleSorted(String orderBy) {
-        return dao.bubbleSorted(orderBy);
+        return dao.mergeSort(orderBy);
     }
     
     public String listStudentsAsString(List<Student> students, String orderDescriptionBy) {

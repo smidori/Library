@@ -60,5 +60,9 @@ public class BookView {
         List<Book> books = bc.bubbleSorted(field);
         System.out.println("BOOKS LIST\n" + bc.listBooksAsString(books, field));
     }
+    
+    public void listBooks(List<Book> books, String field) {
+        System.out.println("BOOKS LIST\n" + bc.listBooksAsString(books, field));
+    }
 
 }

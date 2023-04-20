@@ -82,28 +82,38 @@ public class Library {
                     bv.searchBook("id");
                     break;
                 }
-                case 6: {//list student ordered by name
+                case 6:{//search book by the text
+                    String search = InputUtils.getUserText("Type the word for search in id, title and/or author", ColorMessage.BLUE);
+                    List<Book> books = bc.findBookContains(search);
+                    if(books.isEmpty()){
+                        ColorMessage.print("This word ["+search+"] wasn't find in any book", ColorMessage.PINK);
+                    }else{
+                        bv.listBooks(books, "title");
+                    }
+                    break;
+                }
+                case 7: {//list student ordered by name
                     String field = "name";
                     List<Student> students = sc.bubbleSorted(field);
                     sv.listStudents(students, field);
                     break;
                 }
-                case 7: {//list student ordered by id
+                case 8: {//list student ordered by id
                     //sv.listStudents("id");
                     String field = "id";
                     List<Student> students = sc.bubbleSorted(field);
                     sv.listStudents(students, field);
                     break;
                 }
-                case 8: {//search the student by name
+                case 9: {//search the student by name
                     sv.search("name");
                     break;
                 }
-                case 9: {//search the student by id
+                case 10: {//search the student by id
                     sv.search("id");
                     break;
                 }
-                case 10: {
+                case 11: {
                     Book book = bv.searchBookbyId();
                     if (book != null) {
                         Student student = sv.searchStudentById();
@@ -140,7 +150,7 @@ public class Library {
                     }
                     break;
                 }
-                case 11: {
+                case 12: {
                     Book book = bv.searchBookbyId();
                     if (book != null) {
                         lbv.returnBook(book.getId());
@@ -155,14 +165,14 @@ public class Library {
 
                     break;
                 }
-                case 12: {//list books lent to the student
+                case 13: {//list books lent to the student
                     Student student = sv.searchStudentById();
                     if (student != null) {
                         lbv.listLendBooksByStudent(student);
                     }
                     break;
                 }
-                case 13: {//show search waiting list by book id
+                case 14: {//show search waiting list by book id
                     String searchIdBook = InputUtils.getUserText("Type the book id", ColorMessage.BLUE);
                     Menu.printSearching("waitling list");
                     List<Student> students = wlc.findStudentsWaitingListbyIdBook(searchIdBook);
@@ -174,7 +184,7 @@ public class Library {
                     }
                     break;
                 }
-                case 14: {//remove 1° student from queue
+                case 15: {//remove 1° student from queue
                     String searchIdBook = InputUtils.getUserText("Type the book id", ColorMessage.BLUE);
                     Menu.printSearching("waitling list");
 
@@ -188,8 +198,6 @@ public class Library {
                         ColorMessage.print("1° Student removed from the waiting list with success",ColorMessage.GREEN);
                     }
 
-                }case 15:{//search book by the text
-                    
                 }
             }
             if (InputUtils.getUserPressEnter()) {

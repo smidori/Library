@@ -11,6 +11,7 @@ import library.comparator.ComparatorBookByTitle;
 import library.model.Book;
 import library.utilities.BinarySearch;
 import library.utilities.Commons;
+import library.utilities.MergeSort;
 import library.utilities.ReadCSV;
 
 /**
@@ -18,9 +19,10 @@ import library.utilities.ReadCSV;
  * @author Silvia Shimabuko
  */
 public class BookDAO {
+
     public static final String FILE_BOOK = "BOOKS_DATA.csv";
     private static List<Book> books;
-    
+
     public void loadDataBooks() {
         books = new ArrayList<>();
         ReadCSV reader = new ReadCSV();
@@ -40,28 +42,28 @@ public class BookDAO {
     public List<Book> getBooks() {
         return books;
     }
-    
+
     public int binarySearch(String targetName, String field) {
         targetName = Commons.removeAccents(targetName);
         Book target = new Book();
-        bubbleSorted(field); //need to sort before to search in a binary search
-        
-        if (field.equalsIgnoreCase("title")) {    
+        mergeSort(field); //need to sort before to search in a binary search
+
+        if (field.equalsIgnoreCase("title")) {
             target.setTitle(targetName);
             return BinarySearch.binarySearch(books, target, new ComparatorBookByTitle());
-        }else if(field.equalsIgnoreCase("author")){//search by author
+        } else if (field.equalsIgnoreCase("author")) {//search by author
             target.setAuthorFirstName(targetName.split(" ")[0]);
             target.setAuthorLastName(targetName.split(" ")[1]);
             return BinarySearch.binarySearch(books, target, new ComparatorBookByAuthor());
-        }else if(field.equalsIgnoreCase("id")){//search by book id
+        } else if (field.equalsIgnoreCase("id")) {//search by book id
             target.setId(targetName);
             return BinarySearch.binarySearch(books, target, null);
-        }else{//invalid field
+        } else {//invalid field
             return -1;
         }
     }
-    
-    public String listBooksAsString(List<Book> books,String orderDescriptionBy) {
+
+    public String listBooksAsString(List<Book> books, String orderDescriptionBy) {
         StringBuilder sb = new StringBuilder();
 
         if (books == null || books.isEmpty()) {
@@ -73,40 +75,34 @@ public class BookDAO {
         }
         return sb.toString();
     }
-    
+
     //Used do/while because it is faster then nested for
-    public List<Book> bubbleSorted(String orderBy) {
-        Book temp;
-        boolean swap = false;
-        do {
-            swap = false;
-            String s1;
-            String s2;
-
-            for (int j = 0; j < books.size() - 1; j++) {
-
-                if (orderBy.equalsIgnoreCase("author")) {
-                    s1 = Commons.removeAccents(books.get(j).getFullName());
-                    s2 = Commons.removeAccents(books.get(j + 1).getFullName());
-                } else if (orderBy.equalsIgnoreCase("title")) {//order by title  
-                    s1 = Commons.removeAccents(books.get(j).getTitle());
-                    s2 = Commons.removeAccents(books.get(j + 1).getTitle());
-                } else {//order by title  
-                    s1 = books.get(j).getId();
-                    s2 = books.get(j + 1).getId();
-                }
-
-                int compare = s1.compareTo(s2);
-
-                if (compare > 0) { //s1 > s2
-                    temp = books.get(j);
-                    books.set(j, books.get(j + 1));
-                    books.set(j + 1, temp);
-                    swap = true;
-                }
-            }
-        } while (swap);
+    public List<Book> mergeSort(String orderBy) {
+        
+        if (orderBy.equalsIgnoreCase("author")) {
+            MergeSort.divideMerge(books, new ComparatorBookByAuthor());
+          
+        } else if (orderBy.equalsIgnoreCase("title")) {//order by title  
+            MergeSort.divideMerge(books, new ComparatorBookByTitle());
+        } else {//order by id 
+            MergeSort.divideMerge(books, null);
+        }
         return books;
+    }
+    
+    public List<Book> findBookContains(String target) {
+        List<Book> booksSearched = new ArrayList<>();
+        target = target.toLowerCase();
+
+        for (Book b : books) {
+            String title = Commons.removeAccents(b.getTitle()).toLowerCase();
+            if (title.contains(target)
+                    || b.getFullName().toLowerCase().contains(target)
+                    || b.getId().toLowerCase().contains(target)) {
+                booksSearched.add(b);
+            }
+        }
+        return booksSearched;
     }
 
 }

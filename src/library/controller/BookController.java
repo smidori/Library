@@ -24,7 +24,7 @@ public class BookController {
     }
     
     public List<Book> bubbleSorted(String orderBy) {
-        return dao.bubbleSorted(orderBy);
+        return dao.mergeSort(orderBy);
     }
 
     public int binarySearch(String targetName, String field) {
@@ -33,5 +33,8 @@ public class BookController {
     
     public List<Book> getBooks() {
         return dao.getBooks();
+    }
+    public List<Book> findBookContains(String target) {
+        return dao.findBookContains(target); 
     }
 }

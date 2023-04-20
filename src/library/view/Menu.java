@@ -13,24 +13,49 @@ import library.utilities.ColorMessage;
 public class Menu {
      public String mainMenu(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\n************ Menu ************ \n");
-        sb.append(" 0 - Exit \n");
-        sb.append(" 1 - List all books by title \n");
-        sb.append(" 2 - List all books by author \n");
-        sb.append(" 3 - Search book by title \n");        
-        sb.append(" 4 - Search book by author \n");
-        sb.append(" 5 - Search book by id \n");
+        String stars = "***********************************************************";
+        sb.append("\n"+stars+" MENU "+stars+"\n");
         
-        sb.append(" 6 - List all students by name \n");  
-        sb.append(" 7 - List all students by id \n");
-        sb.append(" 8 - Search for a student by name \n");
-        sb.append(" 9 - Search for a student by Id \n");
+        String fmt = "%-37s";
+        String bTitle = String.format(fmt, "         -- BOOK --");
+        String b1 = String.format(fmt, " 1 - List all ordered by title");
+        String b2 = String.format(fmt, " 2 - List all ordered by author");
+        String b3 = String.format(fmt, " 3 - Search by title");
+        String b4 = String.format(fmt, " 4 - Search by author");
+        String b5 = String.format(fmt, " 5 - Search by id");
+        String b6 = String.format(fmt, " 6 - Search by word"); 
+        
+        String sTitle = String.format(fmt, "         -- STUDENTS --");
+        String s1 = String.format(fmt, " 7 - List all students by name");
+        String s2 = String.format(fmt, " 8 - List all students by id");
+        String s3 = String.format(fmt, " 9 - Search for a student by name");
+        String s4 = String.format(fmt, "10 - Search for a student by Id");
+        String s5 = String.format(fmt, "");
+        String s6 = String.format(fmt, "");
+        
+        String lrTitle = String.format(fmt, "         -- LENDING & RETURN --");
+         String lr1 = String.format(fmt, "11 - Lend book");
+        String lr2 = String.format(fmt, "12 - Return books");
+        String lr3 = String.format(fmt, "13 - Books lent to the student");
+        String lr4 = String.format(fmt, "14 - Search waiting list by book id");
+        String lr5 = String.format(fmt, "15 - Remove 1° student from Waiting List");
+        String lr6 = String.format(fmt, "");
+     
+        
+        
+        
+        sb.append(bTitle + "| " + sTitle + "| " + lrTitle +"\n");  
+        sb.append(b1 + "| " + s1 + "| " + lr1 + "\n");
+        sb.append(b2 + "| " + s2 + "| " + lr2 + "\n");
+        sb.append(b3 + "| " + s3 + "| " + lr3 + "\n");
+        sb.append(b4 + "| " + s4 + "| " + lr4 + "\n");
+        sb.append(b5 + "| " + s5 + "| " + lr5 + "\n");
+        sb.append(b6 + "| " + s6 + "| " + lr6 + "\n\n");
+        sb.append(" 0 - Exit \n");
+        
 
-        sb.append("10 - Lend book \n"); 
-        sb.append("11 - Return books \n");       
-        sb.append("12 - Books lent to the student \n"); 
-        sb.append("13 - Search waiting list by book id\n"); 
-        sb.append("14 - Remove 1° student from Waiting List\n"); 
+        
+        
         sb.append("Select an option: \n");
         return sb.toString();
     }

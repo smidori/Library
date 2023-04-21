@@ -37,9 +37,9 @@ public class StudentView {
      */
     public void listStudents(List<Student> students, String field) {
         if (field.equalsIgnoreCase("name")) {
-            ColorMessage.print("Name\t-\tId\t-\tEmail\t-\tAddress \n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Name\t-\tId\t-\tEmail\t-\tAddress \n", ColorMessage.LIGHT_GRAY);
         } else {
-            ColorMessage.print("Id\t-\tName\t-\tEmail\t-\tAddress \n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Id\t-\tName\t-\tEmail\t-\tAddress \n", ColorMessage.LIGHT_GRAY);
         }
         System.out.println(sc.listStudentsAsString(students, field));
     }

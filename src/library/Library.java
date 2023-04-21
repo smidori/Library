@@ -174,7 +174,7 @@ public class Library {
                     if (students.isEmpty()) {
                         ColorMessage.print("\nWaiting list for the book [" + searchIdBook + "] not found :( \n", ColorMessage.PINK);
                     } else {
-                        ColorMessage.print("\nSTUDENTS WAITING LIST\n", ColorMessage.BOLD_GRAY);
+                        ColorMessage.print("\nSTUDENTS WAITING LIST\n", ColorMessage.LIGHT_GRAY);
                         sv.listStudents(students, "id");
                     }
                     break;

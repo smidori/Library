@@ -15,8 +15,12 @@ public class ColorMessage {
     public static final String PINK = "PINK";
     public static final String BLUE = "BLUE";
     public static final String GREEN = "GREEN";
-    public static final String BOLD_GRAY = "BOLD_GRAY";
+    public static final String LIGHT_GRAY = "LIGHT_GRAY";
     public static final String YELLOW = "YELLOW";
+    
+    //In case the IDE or System Operational has a different configuration and don't
+    //print the text properly, this variables needs to be set to false
+    public static final boolean PRINT_COLOR = true;
 
     /**
      * Print the message in a different color
@@ -42,7 +46,7 @@ public class ColorMessage {
                 case GREEN:
                     colorCode = "\033[2;32m";
                     break;
-                case BOLD_GRAY:
+                case LIGHT_GRAY:
                     colorCode = "\033[1;30m";
                     break;
                 case YELLOW:
@@ -55,7 +59,12 @@ public class ColorMessage {
         }
         String[] lines = message.split("\\n");
         for (String l : lines) {
-            System.out.println(colorCode + l + colorDefault);
+            if(PRINT_COLOR){
+                System.out.println(colorCode + l + colorDefault);
+            }else{
+                System.out.println(l);
+            }
+            
         }
     }
 }

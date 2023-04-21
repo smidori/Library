@@ -66,18 +66,18 @@ public class BookView {
     public void listBooks(String field) {
         bc.mergeSort(field);
         if (field.equalsIgnoreCase("author")) {
-            ColorMessage.print("\t\t\tId\t\t-\tAuthor\t-\tTitle\n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("\t\t\tId\t\t-\tAuthor\t-\tTitle\n", ColorMessage.LIGHT_GRAY);
         } else {
-            ColorMessage.print("\t\t\tId\t\t-\tTitle\t-\tAuthor\n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("\t\t\tId\t\t-\tTitle\t-\tAuthor\n", ColorMessage.LIGHT_GRAY);
         }
         System.out.println(bc.listBooksAsString(bc.getBooks(), field));
     }
     
     public void listBooks(List<Book> books, String field) {
         if (field.equalsIgnoreCase("author")) {
-            ColorMessage.print("Id\t-\tAuthor\t-\tTitle\n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Id\t-\tAuthor\t-\tTitle\n", ColorMessage.LIGHT_GRAY);
         } else {
-            ColorMessage.print("Id\t-\tTitle\t-\tAuthor\n", ColorMessage.BOLD_GRAY);
+            ColorMessage.print("Id\t-\tTitle\t-\tAuthor\n", ColorMessage.LIGHT_GRAY);
         }
         System.out.println(bc.listBooksAsString(books, field));
     }

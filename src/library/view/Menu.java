@@ -61,6 +61,6 @@ public class Menu {
     
     public static void printSearching(String object){
         String message = "\nSearching for the "+object+"...\n";
-        ColorMessage.print(message, ColorMessage.BOLD_GRAY);
+        ColorMessage.print(message, ColorMessage.LIGHT_GRAY);
     }
 }

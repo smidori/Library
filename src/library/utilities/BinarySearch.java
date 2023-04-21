@@ -32,9 +32,9 @@ public class BinarySearch {
                 cmp = c.compare(list.get(mid),target);
             }
             
-            if (cmp < 0) { //if the target is smaller then current, check in the second half
+            if (cmp < 0) { //if the mid is smaller then target, check in the second half
                 left = mid + 1;
-            } else if (cmp > 0) { //if the target is bigger then current, check in the first half
+            } else if (cmp > 0) { //if the mid is bigger then target, check in the first half
                 right = mid - 1;
             } else {
                 return mid; //return the object found
